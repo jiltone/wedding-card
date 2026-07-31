@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuditha &amp; Sajini — Wedding Invitation</title>
+<meta name="description" content="You are cordially invited to the wedding of Samuditha & Sajini at Hotel Deandra, Bolgoda.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Great+Vibes&family=Noto+Serif+Sinhala:wght@400;600&family=Marcellus&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind (CDN, rapid styling) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          maroon: {
+            DEFAULT: '#5c0f1f',
+            dark: '#3d0a15',
+            light: '#7a1c2e'
+          },
+          gold: {
+            DEFAULT: '#c9a24b',
+            light: '#e6d4a3',
+            dark: '#a37f2f'
+          },
+          terracotta: {
+            DEFAULT: '#c98a4b',
+            light: '#e8c9a0',
+            dark: '#a15c2e'
+          },
+          ivory: '#fdf8ef'
+        },
+        fontFamily: {
+          heading: ['"Cormorant Garamond"', 'serif'],
+          display: ['"Marcellus"', 'serif'],
+          script: ['"Great Vibes"', 'cursive'],
+          sinhala: ['"Noto Serif Sinhala"', 'serif'],
+          body: ['"Poppins"', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: #fdf8ef;
+    font-family: 'Poppins', sans-serif;
+    color: #3d0a15;
+  }
+  h1, h2, h3, .font-heading { font-family: 'Cormorant Garamond', serif; }
+
+  /* ---------- Liyawela-inspired motif background ---------- */
+  .motif-bg {
+    background-color: #fdf8ef;
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(201,162,75,0.10) 0, transparent 45%),
+      radial-gradient(circle at 90% 20%, rgba(92,15,31,0.06) 0, transparent 40%),
+      radial-gradient(circle at 20% 90%, rgba(201,162,75,0.10) 0, transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(92,15,31,0.07) 0, transparent 45%);
+  }
+
+  .liyawela-border {
+    position: relative;
+  }
+  .liyawela-border::before,
+  .liyawela-border::after {
+    content: '';
+    display: block;
+    height: 28px;
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: 120px 28px;
+    opacity: 0.55;
+  }
+  .liyawela-border::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28' viewBox='0 0 120 28'%3E%3Cg fill='none' stroke='%23c9a24b' stroke-width='1.5'%3E%3Cpath d='M0 14 Q15 0 30 14 Q45 28 60 14 Q75 0 90 14 Q105 28 120 14'/%3E%3Ccircle cx='15' cy='14' r='3'/%3E%3Ccircle cx='45' cy='14' r='3'/%3E%3Ccircle cx='75' cy='14' r='3'/%3E%3Ccircle cx='105' cy='14' r='3'/%3E%3C/g%3E%3C/svg%3E");
+    transform: rotate(180deg);
+  }
+  .liyawela-border::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28' viewBox='0 0 120 28'%3E%3Cg fill='none' stroke='%23c9a24b' stroke-width='1.5'%3E%3Cpath d='M0 14 Q15 0 30 14 Q45 28 60 14 Q75 0 90 14 Q105 28 120 14'/%3E%3Ccircle cx='15' cy='14' r='3'/%3E%3Ccircle cx='45' cy='14' r='3'/%3E%3Ccircle cx='75' cy='14' r='3'/%3E%3Ccircle cx='105' cy='14' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .gold-line {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #c9a24b, transparent);
+  }
+
+  /* Lotus-style section divider */
+  .lotus-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #c9a24b;
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
+  .lotus-divider::before,
+  .lotus-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #c9a24b);
+  }
+  .lotus-divider::after { background: linear-gradient(to left, transparent, #c9a24b); }
+
+  .card-shadow {
+    box-shadow: 0 10px 40px -12px rgba(61,10,21,0.25);
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #c9a24b, #a37f2f);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(163,127,47,0.6);
+  }
+
+  .countdown-box {
+    backdrop-filter: blur(2px);
+    box-shadow: 0 8px 20px -8px rgba(161,92,46,0.25);
+  }
+
+  /* Kandyan-style repeating dot/diamond divider */
+  .kandyan-divider {
+    height: 2px;
+    background-image: linear-gradient(45deg, #c9a24b 25%, transparent 25%, transparent 75%, #c9a24b 75%),
+                       linear-gradient(45deg, #c9a24b 25%, transparent 25%, transparent 75%, #c9a24b 75%);
+    background-size: 14px 14px;
+    background-position: 0 0, 7px 7px;
+    opacity: 0.6;
+  }
+
+  /* ---------- Hero mandala backdrop ---------- */
+  .mandala-backdrop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-width: 130vw;
+    height: auto;
+    pointer-events: none;
+    animation: mandala-spin 90s linear infinite;
+  }
+  @keyframes mandala-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* ---------- Loading Screen ---------- */
+  #loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(ellipse at center, #5c0f1f 0%, #3d0a15 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .lotus-wrapper { position: relative; width: 120px; height: 120px; }
+  .lotus-petal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 46px;
+    margin-left: -7px;
+    margin-top: -46px;
+    background: linear-gradient(to top, #a37f2f, #e6d4a3);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    transform-origin: bottom center;
+    animation: bloom 2.2s cubic-bezier(.25,.8,.25,1) infinite alternate;
+    opacity: 0;
+  }
+  @keyframes bloom {
+    0% { transform: rotate(var(--rot)) scale(0.2); opacity: 0; }
+    30% { opacity: 1; }
+    100% { transform: rotate(var(--rot)) scale(1); opacity: 1; }
+  }
+  .loading-names {
+    font-family: 'Great Vibes', cursive;
+    color: #e6d4a3;
+    font-size: 2.2rem;
+    margin-top: 1.75rem;
+  }
+  .loading-progress-track {
+    width: 220px;
+    height: 3px;
+    background: rgba(230,212,163,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1.25rem;
+  }
+  .loading-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #c9a24b, #e6d4a3);
+    transition: width 0.15s linear;
+  }
+  .loading-progress-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c9a24b;
+    margin-top: 0.75rem;
+  }
+
+  /* ---------- Falling petals ---------- */
+  #petals-container {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    top: -20px;
+    background: linear-gradient(135deg, #e6d4a3, #c9a24b);
+    border-radius: 0 50%;
+    opacity: 0.55;
+    box-shadow: 0 0 8px rgba(201,162,75,0.4);
+    animation: fall-sway linear infinite;
+  }
+  @keyframes fall-sway {
+    0%   { transform: translateY(-40px) rotate(0deg) translateX(0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    50%  { transform: translateY(50vh) rotate(180deg) translateX(30px); }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(105vh) rotate(360deg) translateX(-20px); opacity: 0; }
+  }
+
+  /* ---------- Music toggle ---------- */
+  #music-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(253,248,239,0.9);
+    border: 1px solid #c9a24b;
+    box-shadow: 0 8px 24px rgba(61,10,21,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  #music-toggle:hover { transform: scale(1.1); }
+  #music-toggle.playing { animation: spin 4s linear infinite; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* ---------- Water ripple click effect ---------- */
+  .click-ripple {
+    position: fixed;
+    border-radius: 50%;
+    border: 2px solid rgba(201,162,75,0.6);
+    box-shadow: 0 0 20px rgba(201,162,75,0.3), inset 0 0 15px rgba(230,212,163,0.5);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: ripple-expand 1.2s cubic-bezier(.1,.8,.3,1) forwards;
+    z-index: 9998;
+  }
+  @keyframes ripple-expand {
+    0% { width: 0; height: 0; opacity: 1; }
+    100% { width: 220px; height: 220px; opacity: 0; }
+  }
+
+  /* ---------- Scroll explore hint ---------- */
+  .scroll-explore {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a24b;
+    animation: gentle-bounce 2.5s infinite ease-in-out;
+  }
+  @keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ---------- RSVP form ---------- */
+  .rsvp-input, .rsvp-textarea {
+    width: 100%;
+    border: 1px solid rgba(201,162,75,0.5);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.7);
+    color: #3d0a15;
+  }
+  .rsvp-input:focus, .rsvp-textarea:focus {
+    outline: none;
+    border-color: #c9a24b;
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.2);
+  }
+</style>
+</head>
+
+<body class="motif-bg overflow-x-hidden">
+
+<!-- ===================== Loading Screen ===================== -->
+<div id="loading-screen">
+  <div class="lotus-wrapper">
+    <div class="lotus-petal" style="--rot: -60deg;"></div>
+    <div class="lotus-petal" style="--rot: -30deg; animation-delay: 0.15s;"></div>
+    <div class="lotus-petal" style="--rot: 0deg; animation-delay: 0.3s;"></div>
+    <div class="lotus-petal" style="--rot: 30deg; animation-delay: 0.45s;"></div>
+    <div class="lotus-petal" style="--rot: 60deg; animation-delay: 0.6s;"></div>
+  </div>
+  <p class="loading-names">Samuditha &amp; Sajini</p>
+  <div class="loading-progress-track">
+    <div class="loading-progress-bar" id="loading-progress-bar"></div>
+  </div>
+  <p class="loading-progress-text" id="loading-progress-text">Preparing the magic... 0%</p>
+</div>
+
+<!-- ===================== Falling Petals (ambient background) ===================== -->
+<div id="petals-container"></div>
+
+<!-- ===================== Music Toggle ===================== -->
+<div id="music-toggle" title="Play background music">🎵</div>
+<audio id="bg-music" loop>
+  <!-- Add your own track at this path to enable music -->
+  <source src="bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===================== Guest Greeting Bar ===================== -->
+<div id="guest-greeting" class="w-full bg-maroon text-ivory text-center text-sm sm:text-base py-3 px-4 font-body tracking-wide">
+  Dear Family &amp; Friends, you are warmly invited to our wedding.
+</div>
+
+<!-- ===================== Hero Section ===================== -->
+<section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 bg-gradient-to-b from-ivory via-[#fbead3] to-ivory text-maroon-dark overflow-hidden">
+
+  <p class="reveal relative font-heading italic text-terracotta-dark text-lg sm:text-xl tracking-widest mb-3">
+    ආයුබෝවන් &mdash; Ayubowan
+  </p>
+
+  <p class="reveal relative text-terracotta-dark/80 text-xs sm:text-sm uppercase tracking-[0.35em] mb-6">Together with their families</p>
+
+  <h1 class="sr-only">Samuditha &amp; Sajini</h1>
+
+  <!-- Couple illustration, with a lace mandala backdrop -->
+  <div class="reveal relative mb-2 flex items-center justify-center">
+    <svg class="mandala-backdrop" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <g id="petal">
+          <path d="M200 26 C218 55 220 82 200 112 C180 82 182 55 200 26 Z" fill="none" stroke="#c98a4b" stroke-width="1"/>
+          <path d="M200 40 C210 60 211 78 200 98 C189 78 190 60 200 40 Z" fill="#e8c9a0" opacity="0.35"/>
+          <circle cx="200" cy="46" r="2.2" fill="#c98a4b"/>
+        </g>
+        <g id="petal-sm">
+          <path d="M200 70 C209 88 209 104 200 120 C191 104 191 88 200 70 Z" fill="none" stroke="#c98a4b" stroke-width="0.8"/>
+          <circle cx="200" cy="78" r="1.6" fill="#c98a4b"/>
+        </g>
+        <g id="dot-ring">
+          <circle cx="200" cy="18" r="1.6" fill="#c98a4b"/>
+        </g>
+      </defs>
+
+      <g opacity="0.6">
+        <circle cx="200" cy="200" r="185" fill="none" stroke="#c98a4b" stroke-width="0.5"/>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#c98a4b" stroke-width="0.6"/>
+        <circle cx="200" cy="200" r="115" fill="none" stroke="#c98a4b" stroke-width="0.5" stroke-dasharray="1 5"/>
+        <circle cx="200" cy="200" r="75" fill="none" stroke="#c98a4b" stroke-width="0.7"/>
+        <circle cx="200" cy="200" r="34" fill="none" stroke="#c98a4b" stroke-width="0.8"/>
+
+        <!-- outer ring of large petals -->
+        <g>
+          <use href="#petal" transform="rotate(0 200 200)"/>
+          <use href="#petal" transform="rotate(22.5 200 200)"/>
+          <use href="#petal" transform="rotate(45 200 200)"/>
+          <use href="#petal" transform="rotate(67.5 200 200)"/>
+          <use href="#petal" transform="rotate(90 200 200)"/>
+          <use href="#petal" transform="rotate(112.5 200 200)"/>
+          <use href="#petal" transform="rotate(135 200 200)"/>
+          <use href="#petal" transform="rotate(157.5 200 200)"/>
+          <use href="#petal" transform="rotate(180 200 200)"/>
+          <use href="#petal" transform="rotate(202.5 200 200)"/>
+          <use href="#petal" transform="rotate(225 200 200)"/>
+          <use href="#petal" transform="rotate(247.5 200 200)"/>
+          <use href="#petal" transform="rotate(270 200 200)"/>
+          <use href="#petal" transform="rotate(292.5 200 200)"/>
+          <use href="#petal" transform="rotate(315 200 200)"/>
+          <use href="#petal" transform="rotate(337.5 200 200)"/>
+        </g>
+
+        <!-- inner ring of smaller petals, offset -->
+        <g>
+          <use href="#petal-sm" transform="rotate(11.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(33.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(56.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(78.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(101.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(123.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(146.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(168.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(191.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(213.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(236.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(258.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(281.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(303.75 200 200)"/>
+          <use href="#petal-sm" transform="rotate(326.25 200 200)"/>
+          <use href="#petal-sm" transform="rotate(348.75 200 200)"/>
+        </g>
+
+        <!-- outer lace dot ring -->
+        <g>
+          <use href="#dot-ring" transform="rotate(0 200 200)"/>
+          <use href="#dot-ring" transform="rotate(15 200 200)"/>
+          <use href="#dot-ring" transform="rotate(30 200 200)"/>
+          <use href="#dot-ring" transform="rotate(45 200 200)"/>
+          <use href="#dot-ring" transform="rotate(60 200 200)"/>
+          <use href="#dot-ring" transform="rotate(75 200 200)"/>
+          <use href="#dot-ring" transform="rotate(90 200 200)"/>
+          <use href="#dot-ring" transform="rotate(105 200 200)"/>
+          <use href="#dot-ring" transform="rotate(120 200 200)"/>
+          <use href="#dot-ring" transform="rotate(135 200 200)"/>
+          <use href="#dot-ring" transform="rotate(150 200 200)"/>
+          <use href="#dot-ring" transform="rotate(165 200 200)"/>
+          <use href="#dot-ring" transform="rotate(180 200 200)"/>
+          <use href="#dot-ring" transform="rotate(195 200 200)"/>
+          <use href="#dot-ring" transform="rotate(210 200 200)"/>
+          <use href="#dot-ring" transform="rotate(225 200 200)"/>
+          <use href="#dot-ring" transform="rotate(240 200 200)"/>
+          <use href="#dot-ring" transform="rotate(255 200 200)"/>
+          <use href="#dot-ring" transform="rotate(270 200 200)"/>
+          <use href="#dot-ring" transform="rotate(285 200 200)"/>
+          <use href="#dot-ring" transform="rotate(300 200 200)"/>
+          <use href="#dot-ring" transform="rotate(315 200 200)"/>
+          <use href="#dot-ring" transform="rotate(330 200 200)"/>
+          <use href="#dot-ring" transform="rotate(345 200 200)"/>
+        </g>
+      </g>
+    </svg>
+
+    <img src="assets/couple-illustration-transparent.png" alt="Samuditha and Sajini" class="relative w-48 sm:w-60 h-auto drop-shadow-lg">
+  </div>
+
+  <div class="reveal relative gold-line w-40 my-6"></div>
+
+  <p class="reveal relative font-body text-maroon-dark/80 text-sm sm:text-base max-w-md">
+    request the honor of your presence as they begin their journey of a lifetime together.
+  </p>
+
+  <p class="reveal relative font-display text-base sm:text-lg mt-3 mb-1 tracking-wide text-maroon-dark">
+    Wednesday, the 11th of November, 2026
+  </p>
+  <p class="reveal relative font-body text-terracotta-dark/90 text-xs italic mb-10">
+    Poruwa Ceremony at 9:40 AM &middot; Hotel Deandra, Bolgoda
+  </p>
+
+  <!-- Countdown -->
+  <div class="reveal relative flex flex-wrap justify-center gap-3 sm:gap-5" id="countdown">
+    <div class="countdown-box rounded-xl px-4 py-3 sm:px-6 sm:py-4 min-w-[70px] sm:min-w-[90px] bg-white/70 border-terracotta/40">
+      <div class="text-2xl sm:text-4xl font-heading font-semibold text-maroon-dark" id="cd-days">00</div>
+      <div class="text-[10px] sm:text-xs uppercase tracking-widest text-terracotta-dark mt-1">Days</div>
+    </div>
+    <div class="countdown-box rounded-xl px-4 py-3 sm:px-6 sm:py-4 min-w-[70px] sm:min-w-[90px] bg-white/70 border-terracotta/40">
+      <div class="text-2xl sm:text-4xl font-heading font-semibold text-maroon-dark" id="cd-hours">00</div>
+      <div class="text-[10px] sm:text-xs uppercase tracking-widest text-terracotta-dark mt-1">Hours</div>
+    </div>
+    <div class="countdown-box rounded-xl px-4 py-3 sm:px-6 sm:py-4 min-w-[70px] sm:min-w-[90px] bg-white/70 border-terracotta/40">
+      <div class="text-2xl sm:text-4xl font-heading font-semibold text-maroon-dark" id="cd-minutes">00</div>
+      <div class="text-[10px] sm:text-xs uppercase tracking-widest text-terracotta-dark mt-1">Minutes</div>
+    </div>
+    <div class="countdown-box rounded-xl px-4 py-3 sm:px-6 sm:py-4 min-w-[70px] sm:min-w-[90px] bg-white/70 border-terracotta/40">
+      <div class="text-2xl sm:text-4xl font-heading font-semibold text-maroon-dark" id="cd-seconds">00</div>
+      <div class="text-[10px] sm:text-xs uppercase tracking-widest text-terracotta-dark mt-1">Seconds</div>
+    </div>
+  </div>
+
+  <a href="#events" class="reveal relative mt-14 text-terracotta-dark text-xs uppercase tracking-widest border border-terracotta/50 rounded-full px-6 py-2 hover:bg-terracotta hover:text-ivory transition-colors">
+    View Details
+  </a>
+
+  <div class="scroll-explore relative mt-8" style="color: #c98a4b;">
+    <span>Scroll to Explore</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<div class="liyawela-border"></div>
+
+<!-- ===================== Event Details ===================== -->
+<section id="events" class="relative py-20 px-6 max-w-5xl mx-auto">
+  <div class="text-center mb-14 reveal">
+    <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">Save the Date</p>
+    <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">Our Ceremonies</h2>
+    <div class="lotus-divider mt-5">✦</div>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-8">
+
+    <!-- Poruwa Ceremony -->
+    <div class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden">
+      <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
+      <p class="text-gold-dark text-4xl mb-3">☘</p>
+      <h3 class="font-heading text-3xl text-maroon mb-2">Poruwa Ceremony</h3>
+      <div class="gold-line w-16 mx-auto my-4"></div>
+      <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
+      <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 9:40 AM</p>
+      <p class="font-body text-sm text-maroon-dark/80"><span class="font-semibold">Dress Code:</span> Traditional Sri Lankan Attire</p>
+    </div>
+
+    <!-- Reception -->
+    <div class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden">
+      <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
+      <p class="text-gold-dark text-4xl mb-3">✦</p>
+      <h3 class="font-heading text-3xl text-maroon mb-2">Reception</h3>
+      <div class="gold-line w-16 mx-auto my-4"></div>
+      <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
+      <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 10:00 AM &ndash; 4:00 PM</p>
+      <p class="font-body text-sm text-maroon-dark/80"><span class="font-semibold">Dress Code:</span> Formal / Traditional</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="kandyan-divider max-w-4xl mx-auto"></div>
+
+<!-- ===================== Location & Venue ===================== -->
+<section id="venue" class="relative py-20 px-6 max-w-5xl mx-auto">
+  <div class="text-center mb-12 reveal">
+    <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">Join Us At</p>
+    <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">The Venue</h2>
+    <div class="lotus-divider mt-5">✦</div>
+  </div>
+
+  <div class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 overflow-hidden">
+    <div class="p-8 text-center">
+      <h3 class="font-heading text-3xl text-maroon mb-2">Hotel Deandra</h3>
+      <p class="font-body text-sm text-maroon-dark/80 max-w-md mx-auto">
+        Bolgoda, Sri Lanka
+      </p>
+    </div>
+
+    <div class="w-full aspect-video">
+      <iframe
+        src="https://www.google.com/maps?q=Hotel+Deandra+Bolgoda&output=embed"
+        class="w-full h-full border-0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Venue Location Map">
+      </iframe>
+    </div>
+
+    <div class="p-8 text-center">
+      <a
+        href="https://www.google.com/maps/search/?api=1&query=Hotel+Deandra+Bolgoda"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-gold inline-block text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-8 py-3">
+        Get Directions
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="kandyan-divider max-w-4xl mx-auto"></div>
+
+<!-- ===================== RSVP ===================== -->
+<section id="rsvp" class="relative py-20 px-6 max-w-2xl mx-auto">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">Kindly Respond</p>
+    <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">RSVP</h2>
+    <div class="lotus-divider mt-5">✦</div>
+    <p class="font-body text-sm text-maroon-dark/70 mt-4">Your presence is our greatest blessing — please let us know by 1st November 2026.</p>
+    <p class="font-body text-sm text-maroon-dark mt-2">Or call/WhatsApp <span class="font-semibold">Sajini&mdash; 076 000 0000</span></p>
+  </div>
+
+  <form id="rsvp-form" class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 space-y-5">
+    <div>
+      <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-name">Full Name</label>
+      <input class="rsvp-input" type="text" id="rsvp-name" name="name" placeholder="Your name" required>
+    </div>
+
+    <div>
+      <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-2">Will you be attending?</label>
+      <div class="flex gap-4">
+        <label class="flex items-center gap-2 text-sm">
+          <input type="radio" name="attending" value="yes" checked> Yes, joyfully
+        </label>
+        <label class="flex items-center gap-2 text-sm">
+          <input type="radio" name="attending" value="no"> Regretfully, no
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-guests">Number of Guests</label>
+      <input class="rsvp-input" type="number" id="rsvp-guests" name="guests" min="1" max="10" value="1">
+    </div>
+
+    <div>
+      <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-message">Message for the Couple</label>
+      <textarea class="rsvp-textarea" id="rsvp-message" name="message" rows="3" placeholder="Share your wishes..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-gold w-full text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-8 py-3">
+      Send RSVP
+    </button>
+
+    <p id="rsvp-success" class="hidden text-center text-sm text-maroon-dark font-medium pt-2"></p>
+  </form>
+</section>
+
+<!-- ===================== Footer ===================== -->
+<footer class="bg-maroon-dark text-ivory text-center py-10 px-6 mt-10">
+  <p class="font-heading text-2xl text-gold mb-2">Samuditha &amp; Sajini</p>
+  <p class="font-body text-xs text-gold-light/80 tracking-widest">With love, we welcome you to celebrate this joyous occasion with us.</p>
+</footer>
+
+<script>
+  // ---------- 1. Loading Screen ----------
+  (function () {
+    const bar = document.getElementById('loading-progress-bar');
+    const text = document.getElementById('loading-progress-text');
+    const screen = document.getElementById('loading-screen');
+    let progress = 0;
+
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 12) + 5;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => screen.classList.add('hidden'), 300);
+      }
+      bar.style.width = progress + '%';
+      text.textContent = 'Preparing the magic... ' + progress + '%';
+    }, 180);
+  })();
+
+  // ---------- 2. Dynamic Guest Greeting ----------
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const guest = params.get('guest');
+    const el = document.getElementById('guest-greeting');
+
+    if (guest && guest.trim().length > 0) {
+      el.textContent = `Dear ${guest.trim()}, you are warmly invited to our wedding.`;
+    } else {
+      el.textContent = 'Dear Family & Friends, you are warmly invited to our wedding.';
+    }
+  })();
+
+  // ---------- 3. Countdown Timer ----------
+  (function () {
+    // Poruwa ceremony date/time from the invitation
+    const weddingDate = new Date('2026-11-11T09:40:00+05:30').getTime();
+
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minutesEl = document.getElementById('cd-minutes');
+    const secondsEl = document.getElementById('cd-seconds');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function update() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance <= 0) {
+        daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = '00';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      daysEl.textContent = pad(days);
+      hoursEl.textContent = pad(hours);
+      minutesEl.textContent = pad(minutes);
+      secondsEl.textContent = pad(seconds);
+    }
+
+    update();
+    setInterval(update, 1000);
+  })();
+
+  // ---------- 4. Fade-in on scroll ----------
+  (function () {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach((el) => observer.observe(el));
+  })();
+
+  // ---------- 5. Falling petals ----------
+  (function () {
+    const container = document.getElementById('petals-container');
+    const count = 14;
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      const size = Math.floor(Math.random() * 10) + 10;
+      petal.style.width = size + 'px';
+      petal.style.height = size + 'px';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = (Math.random() * 8 + 10) + 's';
+      petal.style.animationDelay = (Math.random() * 12) + 's';
+      container.appendChild(petal);
+    }
+  })();
+
+  // ---------- 6. Music toggle ----------
+  (function () {
+    const toggle = document.getElementById('music-toggle');
+    const audio = document.getElementById('bg-music');
+    let playing = false;
+
+    toggle.addEventListener('click', () => {
+      if (!playing) {
+        audio.play().catch(() => {});
+        toggle.classList.add('playing');
+        toggle.title = 'Pause background music';
+      } else {
+        audio.pause();
+        toggle.classList.remove('playing');
+        toggle.title = 'Play background music';
+      }
+      playing = !playing;
+    });
+  })();
+
+  // ---------- 7. Water ripple click effect ----------
+  (function () {
+    document.addEventListener('click', (e) => {
+      const ripple = document.createElement('div');
+      ripple.className = 'click-ripple';
+      ripple.style.left = e.clientX + 'px';
+      ripple.style.top = e.clientY + 'px';
+      document.body.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 1200);
+    });
+  })();
+
+  // ---------- 8. RSVP form ----------
+  (function () {
+    const form = document.getElementById('rsvp-form');
+    const success = document.getElementById('rsvp-success');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        name: document.getElementById('rsvp-name').value.trim(),
+        attending: form.querySelector('input[name="attending"]:checked').value,
+        guests: document.getElementById('rsvp-guests').value,
+        message: document.getElementById('rsvp-message').value.trim()
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) throw new Error('Request failed');
+
+        success.textContent = `Thank you, ${payload.name || 'friend'}! Your RSVP has been recorded.`;
+        success.classList.remove('hidden');
+        success.classList.remove('text-red-700');
+        form.querySelectorAll('input, textarea, button').forEach((el) => el.disabled = true);
+      } catch (err) {
+        success.textContent = 'Something went wrong sending your RSVP. Please try again or call/WhatsApp Sajini directly.';
+        success.classList.remove('hidden');
+        success.classList.add('text-red-700');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send RSVP';
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
