@@ -95,6 +95,10 @@
 </div>
 
 <script>
+  const API_BASE = window.location.hostname.endsWith('netlify.app')
+    ? 'https://samuditha-sajini-wedding.onrender.com'
+    : '';
+
   const loginView = document.getElementById('login-view');
   const dashboardView = document.getElementById('dashboard-view');
   const loginForm = document.getElementById('login-form');
@@ -111,7 +115,7 @@
   }
 
   async function loadRsvps() {
-    const res = await fetch('/api/rsvp?key=' + encodeURIComponent(adminKey));
+    const res = await fetch(API_BASE + '/api/rsvp?key=' + encodeURIComponent(adminKey));
     if (!res.ok) {
       sessionStorage.removeItem('adminKey');
       adminKey = '';
@@ -164,7 +168,7 @@
     document.querySelectorAll('.delete-btn').forEach((btn) => {
       btn.addEventListener('click', async () => {
         if (!confirm('Delete this RSVP?')) return;
-        await fetch('/api/rsvp/' + btn.dataset.id + '?key=' + encodeURIComponent(adminKey), { method: 'DELETE' });
+        await fetch(API_BASE + '/api/rsvp/' + btn.dataset.id + '?key=' + encodeURIComponent(adminKey), { method: 'DELETE' });
         loadRsvps();
       });
     });

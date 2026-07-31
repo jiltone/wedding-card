@@ -653,6 +653,12 @@
 </footer>
 
 <script>
+  // API base URL: when this page is served from Netlify (static hosting only),
+  // point API calls at the Render backend instead of same-origin.
+  const API_BASE = window.location.hostname.endsWith('netlify.app')
+    ? 'https://samuditha-sajini-wedding.onrender.com'
+    : '';
+
   // ---------- 1. Loading Screen ----------
   (function () {
     const bar = document.getElementById('loading-progress-bar');
@@ -805,7 +811,7 @@
       submitBtn.textContent = 'Sending...';
 
       try {
-        const res = await fetch('/api/rsvp', {
+        const res = await fetch(`${API_BASE}/api/rsvp`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

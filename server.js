@@ -1,10 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_KEY = process.env.ADMIN_KEY || 'changeme';
+
+// Comma-separated list of allowed origins (e.g. "https://your-site.netlify.app").
+// Leave unset to allow same-origin requests only implicitly via the browser default.
+const CORS_ORIGINS = (process.env.CORS_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
 
 const DATA_DIR = path.join(__dirname, 'data');
 const RSVP_FILE = path.join(DATA_DIR, 'rsvps.json');
@@ -20,6 +25,9 @@ function writeRsvps(list) {
   fs.writeFileSync(RSVP_FILE, JSON.stringify(list, null, 2));
 }
 
+if (CORS_ORIGINS.length) {
+  app.use(cors({ origin: CORS_ORIGINS }));
+}
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
