@@ -59,6 +59,22 @@ app.get('/api/rsvp', (req, res) => {
   res.json(readRsvps());
 });
 
+app.delete('/api/rsvp/:id', (req, res) => {
+  if (req.query.key !== ADMIN_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const list = readRsvps();
+  const filtered = list.filter((r) => r.id !== req.params.id);
+
+  if (filtered.length === list.length) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+
+  writeRsvps(filtered);
+  res.json({ ok: true });
+});
+
 app.listen(PORT, () => {
   console.log(`Wedding invitation server running at http://localhost:${PORT}`);
 });
