@@ -944,15 +944,37 @@
   (function () {
     const toggle = document.getElementById('music-toggle');
     const audio = document.getElementById('bg-music');
+    const TARGET_VOLUME = 0.55;
     let playing = false;
+    let fadeTimer = null;
+
+    audio.volume = 0;
+
+    function fadeTo(target, duration) {
+      clearInterval(fadeTimer);
+      const steps = 30;
+      const stepTime = duration / steps;
+      const stepAmount = (target - audio.volume) / steps;
+      let count = 0;
+      fadeTimer = setInterval(() => {
+        count++;
+        audio.volume = Math.min(1, Math.max(0, audio.volume + stepAmount));
+        if (count >= steps) {
+          audio.volume = target;
+          clearInterval(fadeTimer);
+          if (target === 0) audio.pause();
+        }
+      }, stepTime);
+    }
 
     toggle.addEventListener('click', () => {
       if (!playing) {
         audio.play().catch(() => {});
+        fadeTo(TARGET_VOLUME, 1400);
         toggle.classList.add('playing');
         toggle.title = 'Pause background music';
       } else {
-        audio.pause();
+        fadeTo(0, 900);
         toggle.classList.remove('playing');
         toggle.title = 'Play background music';
       }
