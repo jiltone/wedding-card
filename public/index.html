@@ -836,6 +836,14 @@
 
       scene.classList.add('opening');
 
+      // Start the background music now, inside this user-gesture handler,
+      // so the browser's autoplay policy doesn't block it. Reuses the
+      // music toggle's own fade-in logic below.
+      const musicToggle = document.getElementById('music-toggle');
+      if (musicToggle && !musicToggle.classList.contains('playing')) {
+        musicToggle.click();
+      }
+
       // Flap flips open, then the letter rises out and settles (~1.85s),
       // then it grows slightly as if being read (~0.75s more), then the
       // whole scene fades/blurs away to reveal the invitation underneath.
