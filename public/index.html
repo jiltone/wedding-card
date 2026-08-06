@@ -263,68 +263,10 @@
     padding: 0;
   }
 
-  /* ---------- Intro panel ---------- */
-  .intro-panel-title {
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
-    transition-delay: 0.3s;
-    will-change: transform, opacity;
-  }
-  .panel.active .intro-panel-title {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .intro-badge {
-    opacity: 0;
-    transform: scale(0.6);
-    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition-delay: 0.8s;
-    will-change: transform, opacity;
-  }
-  .panel.active .intro-badge {
-    opacity: 1;
-    transform: scale(1);
-    animation: badge-breathe 4s ease-in-out 1.7s infinite;
-  }
-  @keyframes badge-breathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-  }
-
-  .intro-names {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    transition-delay: 1.4s;
-    will-change: transform, opacity;
-  }
-  .intro-date {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    transition-delay: 1.6s;
-    will-change: transform, opacity;
-  }
-  .panel.active .intro-names,
-  .panel.active .intro-date {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
+  /* Intro build-in + door-opening timing/animation now lives entirely in
+     intro-animations.css. Only the tap-to-skip hint's base layout stays here. */
   .intro-hint {
     opacity: 0;
-    transition: opacity 0.6s ease;
-    transition-delay: 2.5s;
-  }
-  .panel.active .intro-hint {
-    opacity: 1;
-    animation: hint-pulse 1.8s ease-in-out 2.5s infinite;
-  }
-  @keyframes hint-pulse {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
   }
 
   /* ---------- Slow-zoom images/illustrations ---------- */
@@ -479,7 +421,6 @@
       scroll-behavior: auto !important;
     }
     .reveal,
-    .intro-panel-title, .intro-badge, .intro-names, .intro-date, .intro-hint,
     .slow-zoom-img, .event-row, .event-icon {
       opacity: 1 !important;
       transform: none !important;
@@ -487,8 +428,10 @@
     #petals-container, #light-spots-container { display: none !important; }
   }
 </style>
-<!-- All page-transition and flower-border animation CSS lives here for easy editing -->
+<!-- Page-transition + flower-border animation CSS -->
 <link rel="stylesheet" href="animations.css">
+<!-- Intro build-in + door-opening animation CSS -->
+<link rel="stylesheet" href="intro-animations.css">
 </head>
 
 <body class="motif-bg overflow-x-hidden">
@@ -512,6 +455,13 @@
   <div class="flower-edge edge-right" id="flower-edge-right"></div>
 </div>
 
+<!-- ===================== Travelling monogram badge (fixed overlay, shared between intro and next page) ===================== -->
+<div id="hero-badge" aria-hidden="true">
+  <div class="badge-ring" id="badge-ring"></div>
+  <div class="badge-disc"></div>
+  <div class="badge-letters" id="badge-letters"></div>
+</div>
+
 <!-- ===================== Panel navigation dots ===================== -->
 <div id="panel-dots"></div>
 
@@ -530,21 +480,22 @@
 <div class="panel-deck" id="panel-deck" data-transition="crossfade">
 
   <!-- ---------- Panel 0: Intro / Title ---------- -->
-  <section class="panel" data-panel="0" data-initial="I">
+  <section class="panel arch-target" data-panel="0" data-initial="I">
     <div class="panel-monogram" aria-hidden="true">I</div>
 
-    <div class="relative flex flex-col items-center text-center px-6 max-w-lg mx-auto z-10">
-      <p class="intro-panel-title font-heading italic text-terracotta-dark text-lg sm:text-3xl tracking-widest mb-3">
+    <div class="intro-content relative flex flex-col items-center text-center px-6 max-w-lg mx-auto z-10">
+      <p class="intro-title-line font-heading italic text-terracotta-dark text-lg sm:text-3xl tracking-widest mb-3">
         ආයුබෝවන් &mdash; Ayubowan
       </p>
 
-      <p class="intro-panel-title font-body text-terracotta-dark/80 text-xs sm:text-sm uppercase tracking-[0.35em] mb-8" style="transition-delay: 0.45s;">
+      <p class="intro-title-line intro-title-line-2 font-body text-terracotta-dark/80 text-xs sm:text-sm uppercase tracking-[0.35em] mb-8">
         Together with their families
       </p>
 
-      <div class="intro-badge w-28 h-28 sm:w-32 sm:h-32 rounded-full flex items-center justify-center mb-8" style="background: radial-gradient(circle at 32% 28%, #8a2236, #5c0f1f 70%); box-shadow: 0 8px 24px rgba(61,10,21,0.4), inset 0 0 0 2px rgba(230,212,163,0.3);">
-        <span class="font-heading text-3xl sm:text-4xl text-gold-light tracking-wide">S&amp;S</span>
-      </div>
+      <!-- Invisible spacer preserving the badge's place in the flow — the
+           real badge is a fixed overlay element (#hero-badge) so it can
+           travel to the next page without disappearing/reappearing. -->
+      <div class="badge-slot w-28 h-28 sm:w-32 sm:h-32 mb-8" aria-hidden="true"></div>
 
       <h1 class="intro-names font-script text-5xl sm:text-6xl text-maroon mb-3">Samuditha &amp; Sajini</h1>
       <p class="intro-date font-display text-base sm:text-lg text-terracotta-dark tracking-wide">Wednesday, the 11th of November, 2026</p>
@@ -557,7 +508,7 @@
   </section>
 
   <!-- ---------- Panel 1: Couple ---------- -->
-  <section class="panel" data-panel="1" data-initial="C">
+  <section class="panel arch-target" data-panel="1" data-initial="C">
     <div class="panel-monogram" aria-hidden="true">C</div>
 
     <div class="relative flex flex-col items-center text-center px-6 z-10">
@@ -669,7 +620,7 @@
 
   <!-- ---------- Panel 2: Bride (placeholder — replace photo & bio) ---------- -->
   <section class="panel" data-panel="2" data-initial="B">
-    <div class="panel-monogram" aria-hidden="true">B</div>
+    <div class="panel-monogram" aria-hidden="true">Bride</div>
 
     <div class="relative flex flex-col items-center text-center px-6 max-w-md mx-auto z-10">
       <p class="reveal text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">The Bride</p>
@@ -691,7 +642,7 @@
 
   <!-- ---------- Panel 3: Groom (placeholder — replace photo & bio) ---------- -->
   <section class="panel" data-panel="3" data-initial="G">
-    <div class="panel-monogram" aria-hidden="true">G</div>
+    <div class="panel-monogram" aria-hidden="true">Groom</div>
 
     <div class="relative flex flex-col items-center text-center px-6 max-w-md mx-auto z-10">
       <p class="reveal text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">The Groom</p>
@@ -1050,9 +1001,131 @@
       resetAutoAdvance();
     }
 
-    // first panel starts active immediately
+    // ---------- Intro build-in + door-opening (panel 0 -> panel 1 only) ----------
+    // How long the intro holds before the doors open on their own.
+    const INTRO_HOLD = 3000;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const heroBadge = document.getElementById('hero-badge');
+    const badgeInner = heroBadge.querySelector('.badge-inner');
+    const badgeRing = document.getElementById('badge-ring');
+    const badgeLetters = document.getElementById('badge-letters');
+    const badgeSlot = panels[0].querySelector('.badge-slot');
+    const introContent = panels[0].querySelector('.intro-content');
+    let doorsOpened = false;
+
+    // build the ring flowers, clockwise, 0.03s stagger, starting at 0.5s
+    const RING_COUNT = 12;
+    for (let i = 0; i < RING_COUNT; i++) {
+      const flower = document.createElement('div');
+      flower.className = 'ring-flower';
+      flower.style.setProperty('--ring-angle', (i * (360 / RING_COUNT)) + 'deg');
+      flower.style.setProperty('--ring-delay', (0.5 + i * 0.03) + 's');
+      badgeRing.appendChild(flower);
+    }
+
+    // build the initials, 0.18s apart, starting at 1.2s
+    ['S', '&', 'S'].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'badge-letter';
+      span.textContent = ch;
+      span.style.setProperty('--letter-delay', (1.2 + i * 0.18) + 's');
+      badgeLetters.appendChild(span);
+    });
+
+    function positionHeroBadge() {
+      const slotRect = badgeSlot.getBoundingClientRect();
+      heroBadge.style.width = slotRect.width + 'px';
+      heroBadge.style.height = slotRect.height + 'px';
+      heroBadge.style.top = slotRect.top + 'px';
+      badgeRing.style.setProperty('--ring-radius', (slotRect.width / 2 - 6) + 'px');
+
+      // docked position: near the top of the next page's arch
+      const dockedTop = window.innerHeight * 0.08;
+      const dockedScale = 0.55;
+      const introCenterY = slotRect.top + slotRect.height / 2;
+      const dockedCenterY = dockedTop + (slotRect.height * dockedScale) / 2;
+      heroBadge.style.setProperty('--badge-dock-y', (dockedCenterY - introCenterY) + 'px');
+    }
+    positionHeroBadge();
+    window.addEventListener('resize', positionHeroBadge);
+
+    function openDoors() {
+      if (doorsOpened) return;
+      doorsOpened = true;
+      clearTimeout(introTimer);
+
+      const introPanel = panels[0];
+      const nextPanel = panels[1];
+
+      if (prefersReducedMotion) {
+        // simple, fast fallback — CSS handles the reduced 0.2s fade
+        introPanel.classList.remove('active');
+        heroBadge.classList.remove('breathing-intro');
+        heroBadge.classList.add('docked');
+        badgeInner.style.transform = 'translateY(var(--badge-dock-y, 0px)) scale(0.55)';
+        nextPanel.classList.add('door-visible', 'active');
+        current = 1;
+        dots[0].classList.remove('active');
+        dots[1].classList.add('active');
+        transitioning = false;
+        resetAutoAdvance();
+        return;
+      }
+
+      // 1. text fades + blurs (no movement)
+      introContent.classList.add('doors-opening');
+
+      // 2. badge stops breathing and travels to its docked spot
+      heroBadge.classList.remove('breathing-intro');
+      heroBadge.classList.add('travelling');
+
+      // 3. the next page becomes visible and its arch widens from the centre
+      nextPanel.style.willChange = 'clip-path';
+      nextPanel.classList.add('door-visible');
+      void nextPanel.offsetWidth; // force reflow before triggering the clip-path transition
+      nextPanel.classList.add('door-opening');
+
+      dots[0].classList.remove('active');
+      dots[1].classList.add('active');
+      current = 1;
+
+      setTimeout(() => {
+        nextPanel.style.willChange = 'auto';
+        heroBadge.classList.remove('travelling');
+        heroBadge.classList.add('docked');
+      }, 1100);
+
+      // content reveals 0.2s after the doors finish opening
+      setTimeout(() => {
+        introPanel.classList.remove('active');
+        nextPanel.classList.add('active');
+        transitioning = false;
+        resetAutoAdvance();
+      }, 1300);
+    }
+
+    // first panel starts active immediately (background + flower border are
+    // already visible; its own children handle their individual build-in)
     panels[0].classList.add('active');
-    resetAutoAdvance();
+    transitioning = true; // lock swipe/wheel/keys/dots until the doors open
+    if (!prefersReducedMotion) {
+      heroBadge.classList.add('building', 'breathing-intro');
+    } else {
+      heroBadge.classList.add('docked');
+    }
+
+    let introTimer = setTimeout(openDoors, INTRO_HOLD);
+
+    // tap/click/key anywhere during the hold skips straight to the opening
+    function skipIntroHold(e) {
+      if (doorsOpened) return;
+      openDoors();
+    }
+    panels[0].addEventListener('click', skipIntroHold);
+    panels[0].addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') skipIntroHold(e);
+    });
 
     function activePanelInner() {
       return panels[current].querySelector('.panel-inner');
