@@ -1,0 +1,340 @@
+/* ==========================================================================
+   animations.css
+   Page-to-page transitions + animated flower border.
+   Colors reused from the page's own tokens only:
+     maroon #5c0f1f / #3d0a15 / #7a1c2e
+     gold   #c9a24b / #e6d4a3 / #a37f2f
+     terracotta #c98a4b / #e8c9a0 / #a15c2e
+     ivory  #fdf8ef
+   ========================================================================== */
+
+body { overflow-x: hidden; }
+
+/* ==========================================================================
+   PART A — Page-to-page transitions
+   ========================================================================== */
+
+/* ---------- Base: crossfade with depth (default style) ---------- */
+.panel {
+  transition:
+    opacity 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    transform 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    filter 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  filter: blur(0);
+}
+.panel.active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+.panel.outgoing {
+  opacity: 0;
+  transform: scale(0.94);
+  filter: blur(4px);
+}
+.panel.incoming-start {
+  /* applied for one frame before `.active` is added, so the browser has a
+     transform/opacity/filter starting point to transition FROM */
+  opacity: 0;
+  transform: scale(1.06);
+  filter: blur(4px);
+}
+
+/* direction-aware outgoing for crossfade (reverse plays the mirrored scale) */
+.panel-deck[data-direction="back"] .panel.outgoing {
+  transform: scale(0.94);
+}
+
+/* ---------- Style: slide (parallax) ---------- */
+.panel-deck[data-transition="slide"] .panel {
+  transition:
+    opacity 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+    transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  filter: none !important;
+}
+.panel-deck[data-transition="slide"] .panel.incoming-start {
+  opacity: 1;
+  transform: translateX(100%);
+  filter: none;
+}
+.panel-deck[data-transition="slide"][data-direction="back"] .panel.incoming-start {
+  transform: translateX(-100%);
+}
+.panel-deck[data-transition="slide"] .panel.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+.panel-deck[data-transition="slide"] .panel.outgoing {
+  opacity: 0.4;
+  transform: translateX(-30%);
+}
+.panel-deck[data-transition="slide"][data-direction="back"] .panel.outgoing {
+  transform: translateX(30%);
+}
+
+/* ---------- Style: curtain ---------- */
+#curtain-sweep {
+  position: fixed;
+  inset: 0;
+  background-color: #fdf8ef; /* existing ivory background token */
+  z-index: 40;
+  transform: translateX(-100%);
+  pointer-events: none;
+  will-change: transform;
+}
+#curtain-sweep.sweep-in {
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  transform: translateX(0);
+}
+#curtain-sweep.sweep-out {
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  transform: translateX(100%);
+}
+.panel-deck[data-transition="curtain"] .panel {
+  transition: opacity 0.2s ease;
+}
+.panel-deck[data-transition="curtain"] .panel.active { opacity: 1; }
+.panel-deck[data-transition="curtain"] .panel.outgoing,
+.panel-deck[data-transition="curtain"] .panel:not(.active) { opacity: 0; }
+
+/* ---------- Style: petalwipe ---------- */
+#petalwipe-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+  overflow: hidden;
+}
+.wipe-petal {
+  position: absolute;
+  bottom: -10vh;
+  width: 26px;
+  height: 26px;
+  border-radius: 0 50% 50% 50%;
+  background: linear-gradient(135deg, #e6d4a3, #c9a24b);
+  box-shadow: 0 0 10px rgba(201,162,75,0.5);
+  transform: scale(0) rotate(0deg);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.wipe-petal.rising {
+  transition: transform 0.55s cubic-bezier(0.34, 1.1, 0.4, 1), opacity 0.2s ease;
+  transform: translateY(-70vh) scale(1) rotate(25deg);
+  opacity: 1;
+}
+.wipe-petal.exiting {
+  transition: transform 0.55s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.35s ease 0.2s;
+  transform: translateY(-160vh) scale(1) rotate(70deg);
+  opacity: 0;
+}
+.panel-deck[data-transition="petalwipe"] .panel {
+  transition: opacity 0.2s ease;
+}
+.panel-deck[data-transition="petalwipe"] .panel.active { opacity: 1; }
+.panel-deck[data-transition="petalwipe"] .panel.outgoing,
+.panel-deck[data-transition="petalwipe"] .panel:not(.active) { opacity: 0; }
+
+/* ---------- Giant initial-letter behind content during the change ---------- */
+.panel-monogram {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 40vh;
+  line-height: 1;
+  color: #5c0f1f;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%) translateX(0);
+  will-change: transform, opacity;
+}
+.panel[data-panel="5"] .panel-monogram { color: #e6d4a3; }
+.panel.active .panel-monogram {
+  animation: monogram-fade-drift 1.2s ease-out forwards;
+}
+@keyframes monogram-fade-drift {
+  0%   { opacity: 0.1; transform: translate(-50%, -50%) translateX(0); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) translateX(60px); }
+}
+
+/* ---------- Progress dots: active dot grows + fills in ---------- */
+.panel-dot {
+  position: relative;
+  overflow: hidden;
+}
+.panel-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #c9a24b;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.3s ease-out;
+}
+.panel-dot.active {
+  transform: scale(1.35);
+}
+.panel-dot.active::after {
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   PART B — Animated flower border
+   ========================================================================== */
+
+#flower-border {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.flower-edge {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.flower-edge.edge-bottom {
+  bottom: 0;
+  height: 22vh;
+  transform-origin: bottom center;
+  animation: border-breathe 10s ease-in-out infinite;
+}
+.flower-edge.edge-top {
+  top: 0;
+  height: 12vh;
+  transform-origin: top center;
+}
+@media (max-width: 480px) {
+  .flower-edge.edge-bottom { height: 18vh; }
+}
+
+.flower-edge.settling {
+  animation: border-settle 0.7s ease-out;
+}
+@keyframes border-settle {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes border-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.flower-cluster {
+  position: absolute;
+  bottom: 0;
+  transform-origin: bottom center;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.edge-top .flower-cluster {
+  bottom: auto;
+  top: 0;
+  transform-origin: top center;
+}
+
+/* grow-in on first load */
+.flower-cluster.grow-in {
+  animation: cluster-grow-in-bottom 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.edge-top .flower-cluster.grow-in {
+  animation-name: cluster-grow-in-top;
+}
+@keyframes cluster-grow-in-bottom {
+  0%   { opacity: 0; transform: translateY(100%); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes cluster-grow-in-top {
+  0%   { opacity: 0; transform: translateY(-100%); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* gentle sway forever, layered on top of the grow-in end state via a
+   separate wrapper so both transforms compose without fighting each other */
+.flower-cluster .sway-inner {
+  animation: cluster-sway var(--sway-duration, 7s) ease-in-out infinite alternate;
+  animation-delay: var(--sway-delay, 0s);
+  transform-origin: inherit;
+}
+@keyframes cluster-sway {
+  0%   { transform: rotate(-1.5deg) translateY(0); }
+  100% { transform: rotate(1.5deg) translateY(-2px); }
+}
+
+/* side flowers: lighter, smaller, fade in last */
+.flower-edge.edge-left,
+.flower-edge.edge-right {
+  top: 0;
+  width: 6vw;
+  height: 100%;
+  opacity: 0;
+  animation: side-fade-in 0.8s ease-out 1.2s forwards;
+}
+.flower-edge.edge-left { left: 0; }
+.flower-edge.edge-right { left: auto; right: 0; }
+@keyframes side-fade-in {
+  to { opacity: 0.5; }
+}
+.flower-edge.edge-left .flower-cluster,
+.flower-edge.edge-right .flower-cluster {
+  opacity: 1; /* parent handles fade; skip the bottom/top grow-in on sides */
+  animation: none;
+  transform: none;
+}
+
+/* stagger clusters within an edge, centre outward (index-based via JS var) */
+.flower-cluster { animation-delay: calc(var(--cluster-order, 0) * 0.12s); }
+
+/* falling petals shed from the top border */
+.border-petal {
+  position: fixed;
+  top: 10vh;
+  width: 14px;
+  height: 14px;
+  border-radius: 0 50% 50% 50%;
+  background: linear-gradient(135deg, #e8c9a0, #c98a4b);
+  opacity: 0.75;
+  pointer-events: none;
+  z-index: 6;
+  will-change: transform, opacity;
+  animation: border-petal-fall linear forwards;
+}
+@keyframes border-petal-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(100vh) translateX(var(--petal-drift, 40px)) rotate(300deg); opacity: 0; }
+}
+
+/* ==========================================================================
+   Reduced motion — disable everything from both parts
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: opacity 0.2s ease !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .panel.outgoing, .panel:not(.active) { opacity: 0 !important; }
+  .panel.active { opacity: 1 !important; }
+
+  #curtain-sweep, #petalwipe-layer, .wipe-petal { display: none !important; }
+  .panel-monogram { display: none !important; }
+
+  .flower-cluster,
+  .flower-cluster .sway-inner,
+  .flower-edge.edge-bottom,
+  .flower-edge.edge-left,
+  .flower-edge.edge-right {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .flower-edge.edge-left, .flower-edge.edge-right { opacity: 0.5 !important; }
+  .border-petal { display: none !important; }
+}
