@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Samuditha &amp; Sajini — Wedding Invitation</title>
-<meta name="description" content="You are cordially invited to the wedding of Samuditha & Sajini at Hotel Deandra, Bolgoda.">
+<meta name="description" content="You are cordially invited to the wedding of Samuditha & Sajini at Deandra, Bolgoda, Piliyandala.">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -411,7 +411,7 @@
   }
 
   /* ---------- Reduced motion ---------- */
-  /* Panel-transition and flower-border motion is disabled in animations.css.
+  /* Panel-transition motion is disabled in animations.css.
      This covers everything else declared in this file. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -428,13 +428,33 @@
     #petals-container, #light-spots-container { display: none !important; }
   }
 </style>
-<!-- Page-transition + flower-border animation CSS -->
+<!-- Page-transition animation CSS -->
 <link rel="stylesheet" href="animations.css">
 <!-- Intro build-in + door-opening animation CSS -->
 <link rel="stylesheet" href="intro-animations.css">
+<!-- Envelope-opening intro animation CSS -->
+<link rel="stylesheet" href="envelope-intro.css">
 </head>
 
 <body class="motif-bg overflow-x-hidden">
+
+<!-- ===================== Envelope opening intro ===================== -->
+<div id="envelope-intro" role="button" tabindex="0" aria-label="Tap to open your invitation">
+  <div class="envelope-scene">
+    <div class="envelope-back"></div>
+    <div class="envelope-card">
+      <p class="envelope-card-monogram">S &amp; S</p>
+      <p class="envelope-card-label">Wedding Invitation</p>
+    </div>
+    <div class="envelope-pocket-left"></div>
+    <div class="envelope-pocket-right"></div>
+    <div class="envelope-pocket-front"></div>
+    <div class="envelope-flap">
+      <div class="envelope-seal">S&amp;S</div>
+    </div>
+  </div>
+  <p class="envelope-hint">Tap to Open</p>
+</div>
 
 <!-- ===================== Guest Greeting Bar ===================== -->
 <div id="guest-greeting" class="w-full bg-maroon text-ivory text-center text-sm sm:text-base py-3 px-4 font-body tracking-wide">
@@ -446,21 +466,6 @@
 
 <!-- ===================== Soft light spots (ambient background) ===================== -->
 <div id="light-spots-container"></div>
-
-<!-- ===================== Animated flower border (persistent across pages) ===================== -->
-<div id="flower-border" aria-hidden="true">
-  <div class="flower-edge edge-top" id="flower-edge-top"></div>
-  <div class="flower-edge edge-bottom" id="flower-edge-bottom"></div>
-  <div class="flower-edge edge-left" id="flower-edge-left"></div>
-  <div class="flower-edge edge-right" id="flower-edge-right"></div>
-</div>
-
-<!-- ===================== Travelling monogram badge (fixed overlay, shared between intro and next page) ===================== -->
-<div id="hero-badge" aria-hidden="true">
-  <div class="badge-ring" id="badge-ring"></div>
-  <div class="badge-disc"></div>
-  <div class="badge-letters" id="badge-letters"></div>
-</div>
 
 <!-- ===================== Panel navigation dots ===================== -->
 <div id="panel-dots"></div>
@@ -480,7 +485,7 @@
 <div class="panel-deck" id="panel-deck" data-transition="crossfade">
 
   <!-- ---------- Panel 0: Intro / Title ---------- -->
-  <section class="panel arch-target" data-panel="0" data-initial="I">
+  <section class="panel" data-panel="0" data-initial="I">
     <div class="panel-monogram" aria-hidden="true">I</div>
 
     <div class="intro-content relative flex flex-col items-center text-center px-6 max-w-lg mx-auto z-10">
@@ -492,12 +497,7 @@
         Together with their families
       </p>
 
-      <!-- Invisible spacer preserving the badge's place in the flow — the
-           real badge is a fixed overlay element (#hero-badge) so it can
-           travel to the next page without disappearing/reappearing. -->
-      <div class="badge-slot w-28 h-28 sm:w-32 sm:h-32 mb-8" aria-hidden="true"></div>
-
-      <h1 class="intro-names font-script text-5xl sm:text-6xl text-maroon mb-3">Samuditha &amp; Sajini</h1>
+      <h1 class="intro-names font-script text-5xl sm:text-6xl text-maroon mb-3 mt-4">Samuditha &amp; Sajini</h1>
       <p class="intro-date font-display text-base sm:text-lg text-terracotta-dark tracking-wide">Wednesday, the 11th of November, 2026</p>
     </div>
 
@@ -612,8 +612,14 @@
 
       <div class="reveal gold-line w-40 my-6"></div>
 
+      <p class="reveal font-body text-maroon-dark/80 text-xs sm:text-sm uppercase tracking-[0.15em] max-w-md mb-3">
+        Mr. &amp; Mrs. Jayasekara<br>
+        together with<br>
+        Mr. &amp; Mrs. Liyana Arachchi
+      </p>
+
       <p class="reveal font-body text-maroon-dark/80 text-sm sm:text-base max-w-md">
-        request the honor of your presence as they begin their journey of a lifetime together.
+        warmly request the honour of your presence as they begin their journey of a lifetime together.
       </p>
     </div>
   </section>
@@ -684,7 +690,7 @@
         </div>
 
         <p class="reveal relative font-display text-xl sm:text-3xl mt-1 mb-8 tracking-wide text-maroon font-medium">
-          Hotel Deandra, Bolgoda
+          Deandra, Bolgoda, Piliyandala
         </p>
 
         <!-- Countdown -->
@@ -719,7 +725,7 @@
             <h3 class="font-heading text-3xl text-maroon mb-2">Poruwa Ceremony</h3>
             <div class="gold-line w-16 mx-auto my-4"></div>
             <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 8:45 AM</p>
+            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 8:50 AM</p>
 
           </div>
 
@@ -730,7 +736,7 @@
             <h3 class="font-heading text-3xl text-maroon mb-2">Reception</h3>
             <div class="gold-line w-16 mx-auto my-4"></div>
             <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 10:00 AM &ndash; 4:00 PM</p>
+            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 8:30 AM &ndash; 4:00 PM</p>
 
           </div>
 
@@ -741,15 +747,15 @@
         <!-- Venue -->
         <div class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 overflow-hidden w-full">
           <div class="p-8 text-center">
-            <h3 class="font-heading text-3xl text-maroon mb-2">Hotel Deandra</h3>
+            <h3 class="font-heading text-3xl text-maroon mb-2">Deandra</h3>
             <p class="font-body text-sm text-maroon-dark/80 max-w-md mx-auto">
-              Bolgoda, Sri Lanka
+              Bolgoda, Piliyandala
             </p>
           </div>
 
           <div class="w-full aspect-video">
             <iframe
-              src="https://www.google.com/maps?q=Hotel+Deandra+Bolgoda&output=embed"
+              src="https://www.google.com/maps?q=Deandra+Bolgoda+Piliyandala&output=embed"
               class="w-full h-full border-0"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
@@ -759,7 +765,7 @@
 
           <div class="p-8 text-center">
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Hotel+Deandra+Bolgoda"
+              href="https://www.google.com/maps/search/?api=1&query=Deandra+Bolgoda+Piliyandala"
               target="_blank"
               rel="noopener noreferrer"
               class="btn-gold inline-block text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-8 py-3">
@@ -778,7 +784,7 @@
           <p class="font-body text-sm text-maroon-dark/70 mt-4">Your presence is our greatest blessing — please let us know by 11th November 2026.</p>
           <p class="font-body text-sm text-maroon-dark mt-2">Or call/WhatsApp </p>
             <span class="font-semibold">Sajini&mdash; 077 074 4330</span></p>
-            <span class="font-semibold">Samuditha&mdash; 071 729 1819</span>
+            <span class="font-semibold">Samuditha&mdash; 076 125 4702</span>
         </div>
 
         <form id="rsvp-form" class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 space-y-5 w-full">
@@ -1006,49 +1012,8 @@
     const INTRO_HOLD = 3000;
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const heroBadge = document.getElementById('hero-badge');
-    const badgeInner = heroBadge.querySelector('.badge-inner');
-    const badgeRing = document.getElementById('badge-ring');
-    const badgeLetters = document.getElementById('badge-letters');
-    const badgeSlot = panels[0].querySelector('.badge-slot');
     const introContent = panels[0].querySelector('.intro-content');
     let doorsOpened = false;
-
-    // build the ring flowers, clockwise, 0.03s stagger, starting at 0.5s
-    const RING_COUNT = 12;
-    for (let i = 0; i < RING_COUNT; i++) {
-      const flower = document.createElement('div');
-      flower.className = 'ring-flower';
-      flower.style.setProperty('--ring-angle', (i * (360 / RING_COUNT)) + 'deg');
-      flower.style.setProperty('--ring-delay', (0.5 + i * 0.03) + 's');
-      badgeRing.appendChild(flower);
-    }
-
-    // build the initials, 0.18s apart, starting at 1.2s
-    ['S', '&', 'S'].forEach((ch, i) => {
-      const span = document.createElement('span');
-      span.className = 'badge-letter';
-      span.textContent = ch;
-      span.style.setProperty('--letter-delay', (1.2 + i * 0.18) + 's');
-      badgeLetters.appendChild(span);
-    });
-
-    function positionHeroBadge() {
-      const slotRect = badgeSlot.getBoundingClientRect();
-      heroBadge.style.width = slotRect.width + 'px';
-      heroBadge.style.height = slotRect.height + 'px';
-      heroBadge.style.top = slotRect.top + 'px';
-      badgeRing.style.setProperty('--ring-radius', (slotRect.width / 2 - 6) + 'px');
-
-      // docked position: near the top of the next page's arch
-      const dockedTop = window.innerHeight * 0.08;
-      const dockedScale = 0.55;
-      const introCenterY = slotRect.top + slotRect.height / 2;
-      const dockedCenterY = dockedTop + (slotRect.height * dockedScale) / 2;
-      heroBadge.style.setProperty('--badge-dock-y', (dockedCenterY - introCenterY) + 'px');
-    }
-    positionHeroBadge();
-    window.addEventListener('resize', positionHeroBadge);
 
     function openDoors() {
       if (doorsOpened) return;
@@ -1061,9 +1026,6 @@
       if (prefersReducedMotion) {
         // simple, fast fallback — CSS handles the reduced 0.2s fade
         introPanel.classList.remove('active');
-        heroBadge.classList.remove('breathing-intro');
-        heroBadge.classList.add('docked');
-        badgeInner.style.transform = 'translateY(var(--badge-dock-y, 0px)) scale(0.55)';
         nextPanel.classList.add('door-visible', 'active');
         current = 1;
         dots[0].classList.remove('active');
@@ -1076,11 +1038,7 @@
       // 1. text fades + blurs (no movement)
       introContent.classList.add('doors-opening');
 
-      // 2. badge stops breathing and travels to its docked spot
-      heroBadge.classList.remove('breathing-intro');
-      heroBadge.classList.add('travelling');
-
-      // 3. the next page becomes visible and its arch widens from the centre
+      // 2. the next page becomes visible and its arch widens from the centre
       nextPanel.style.willChange = 'clip-path';
       nextPanel.classList.add('door-visible');
       void nextPanel.offsetWidth; // force reflow before triggering the clip-path transition
@@ -1092,8 +1050,6 @@
 
       setTimeout(() => {
         nextPanel.style.willChange = 'auto';
-        heroBadge.classList.remove('travelling');
-        heroBadge.classList.add('docked');
       }, 1100);
 
       // content reveals 0.2s after the doors finish opening
@@ -1105,17 +1061,17 @@
       }, 1300);
     }
 
-    // first panel starts active immediately (background + flower border are
-    // already visible; its own children handle their individual build-in)
-    panels[0].classList.add('active');
-    transitioning = true; // lock swipe/wheel/keys/dots until the doors open
-    if (!prefersReducedMotion) {
-      heroBadge.classList.add('building', 'breathing-intro');
-    } else {
-      heroBadge.classList.add('docked');
-    }
+    transitioning = true; // lock swipe/wheel/keys/dots until the card intro begins
+    let introTimer;
 
-    let introTimer = setTimeout(openDoors, INTRO_HOLD);
+    // called once the envelope intro has finished opening (or immediately if
+    // the envelope is skipped/absent) — starts the title build-in and the
+    // auto-advance timer toward the door-opening transition
+    function beginCardIntro() {
+      panels[0].classList.add('active');
+      introTimer = setTimeout(openDoors, INTRO_HOLD);
+    }
+    window.__beginCardIntro = beginCardIntro;
 
     // tap/click/key anywhere during the hold skips straight to the opening
     function skipIntroHold(e) {
@@ -1190,130 +1146,51 @@
     });
   })();
 
-  // ---------- 2. Animated flower border (persistent, doesn't reload across pages) ----------
+  // ---------- Envelope opening intro ----------
   (function () {
-    const colors = ['#c9a24b', '#e6d4a3', '#c98a4b', '#e8c9a0']; // existing tokens only
-    const petalMax = 12;
-    let livingPetals = 0;
-
-    function svgFlower(size, colorA, colorB) {
-      const ns = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(ns, 'svg');
-      svg.setAttribute('width', size);
-      svg.setAttribute('height', size);
-      svg.setAttribute('viewBox', '0 0 100 100');
-
-      const petalPaths = [0, 72, 144, 216, 288].map((rot) => {
-        const p = document.createElementNS(ns, 'ellipse');
-        p.setAttribute('cx', '50');
-        p.setAttribute('cy', '28');
-        p.setAttribute('rx', '14');
-        p.setAttribute('ry', '22');
-        p.setAttribute('fill', colorA);
-        p.setAttribute('opacity', '0.85');
-        p.setAttribute('transform', `rotate(${rot} 50 50)`);
-        return p;
-      });
-      petalPaths.forEach((p) => svg.appendChild(p));
-
-      const leaf = document.createElementNS(ns, 'ellipse');
-      leaf.setAttribute('cx', '68');
-      leaf.setAttribute('cy', '75');
-      leaf.setAttribute('rx', '10');
-      leaf.setAttribute('ry', '5');
-      leaf.setAttribute('fill', '#7a1c2e');
-      leaf.setAttribute('opacity', '0.5');
-      leaf.setAttribute('transform', 'rotate(-30 68 75)');
-      svg.appendChild(leaf);
-
-      const center = document.createElementNS(ns, 'circle');
-      center.setAttribute('cx', '50');
-      center.setAttribute('cy', '50');
-      center.setAttribute('r', '10');
-      center.setAttribute('fill', colorB);
-      svg.appendChild(center);
-
-      return svg;
+    const envelope = document.getElementById('envelope-intro');
+    if (!envelope) {
+      if (window.__beginCardIntro) window.__beginCardIntro();
+      return;
     }
 
-    function buildEdge(edgeEl, opts) {
-      const { count, size, sideBySide } = opts;
-      const order = [];
-      const mid = (count - 1) / 2;
-      for (let i = 0; i < count; i++) order.push(i);
-      order.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid)); // centre outward
+    const scene = envelope.querySelector('.envelope-scene');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let opened = false;
 
-      for (let i = 0; i < count; i++) {
-        const cluster = document.createElement('div');
-        cluster.className = 'flower-cluster grow-in';
-        cluster.style.setProperty('--cluster-order', order.indexOf(i));
-        if (sideBySide) {
-          cluster.style.top = ((i / count) * 90 + 4) + '%';
-        } else {
-          cluster.style.left = ((i / (count - 1 || 1)) * 90) + '%';
-        }
+    function openEnvelope() {
+      if (opened) return;
+      opened = true;
 
-        const sway = document.createElement('div');
-        sway.className = 'sway-inner';
-        sway.style.setProperty('--sway-duration', (Math.random() * 3 + 6) + 's');
-        sway.style.setProperty('--sway-delay', (-(Math.random() * 6)) + 's');
-
-        const flowerSize = size + Math.floor(Math.random() * (size * 0.3));
-        const colorA = colors[i % colors.length];
-        const colorB = colors[(i + 2) % colors.length];
-        sway.appendChild(svgFlower(flowerSize, colorA, colorB));
-
-        cluster.appendChild(sway);
-        edgeEl.appendChild(cluster);
+      if (prefersReducedMotion) {
+        scene.classList.add('opening');
+        envelope.classList.add('envelope-hidden');
+        if (window.__beginCardIntro) window.__beginCardIntro();
+        return;
       }
+
+      scene.classList.add('opening');
+
+      // flap opens (0.9s, starting immediately), card rises 0.45s in and
+      // takes 1s — by ~1.45s the card has fully emerged
+      setTimeout(() => {
+        envelope.classList.add('envelope-hidden');
+        if (window.__beginCardIntro) window.__beginCardIntro();
+      }, 1450);
+
+      // fully detach once the fade-out transition (0.9s) has finished
+      setTimeout(() => {
+        envelope.style.display = 'none';
+      }, 1450 + 900);
     }
 
-    const edgeBottom = document.getElementById('flower-edge-bottom');
-    const edgeTop = document.getElementById('flower-edge-top');
-    const edgeLeft = document.getElementById('flower-edge-left');
-    const edgeRight = document.getElementById('flower-edge-right');
-
-    buildEdge(edgeBottom, { count: 7, size: 70 });
-    buildEdge(edgeTop, { count: 5, size: 44 });
-    buildEdge(edgeLeft, { count: 6, size: 30, sideBySide: true });
-    buildEdge(edgeRight, { count: 6, size: 30, sideBySide: true });
-
-    function spawnBorderPetal() {
-      if (livingPetals >= petalMax) return;
-      livingPetals++;
-
-      const petal = document.createElement('div');
-      petal.className = 'border-petal';
-      const startX = Math.random() * 100;
-      const duration = Math.random() * 5 + 9; // 9–14s
-      const drift = (Math.random() * 120 - 60) + 'px';
-
-      petal.style.left = startX + 'vw';
-      petal.style.animationDuration = duration + 's';
-      petal.style.setProperty('--petal-drift', drift);
-      petal.style.background = `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, #c9a24b)`;
-
-      petal.addEventListener('animationend', () => {
-        petal.remove();
-        livingPetals--;
-      });
-
-      document.getElementById('flower-border').appendChild(petal);
-    }
-
-    setInterval(spawnBorderPetal, 2500);
-
-    // exposed so the panel deck can trigger the "settle" reaction + extra petals
-    window.__flowerBorderSettle = function () {
-      [edgeBottom, edgeTop, edgeLeft, edgeRight].forEach((edge) => {
-        edge.classList.remove('settling');
-        void edge.offsetWidth;
-        edge.classList.add('settling');
-      });
-      for (let i = 0; i < 6; i++) {
-        setTimeout(spawnBorderPetal, i * 60);
+    envelope.addEventListener('click', openEnvelope);
+    envelope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openEnvelope();
       }
-    };
+    });
   })();
 
   // ---------- 3. Unlock & auto-start background music on first tap ----------
@@ -1345,7 +1222,7 @@
   // ---------- 5. Countdown Timer ----------
   (function () {
     // Poruwa ceremony date/time from the invitation
-    const weddingDate = new Date('2026-11-11T09:40:00+05:30').getTime();
+    const weddingDate = new Date('2026-11-11T08:50:00+05:30').getTime();
 
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');

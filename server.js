@@ -5,7 +5,9 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ADMIN_KEY = process.env.ADMIN_KEY || 'changeme';
+// Admin password for the RSVP dashboard (public/admin.html).
+// Set ADMIN_KEY in the environment (or Render dashboard) to override the default.
+const ADMIN_KEY = (process.env.ADMIN_KEY || '1234').trim();
 
 // Comma-separated list of allowed origins (e.g. "https://your-site.netlify.app").
 // Leave unset to allow same-origin requests only implicitly via the browser default.
@@ -61,14 +63,14 @@ app.post('/api/rsvp', (req, res) => {
 
 // Simple admin view of RSVPs — pass ?key=<ADMIN_KEY> to access.
 app.get('/api/rsvp', (req, res) => {
-  if (req.query.key !== ADMIN_KEY) {
+  if (String(req.query.key || '').trim() !== ADMIN_KEY) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   res.json(readRsvps());
 });
 
 app.delete('/api/rsvp/:id', (req, res) => {
-  if (req.query.key !== ADMIN_KEY) {
+  if (String(req.query.key || '').trim() !== ADMIN_KEY) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
@@ -85,4 +87,6 @@ app.delete('/api/rsvp/:id', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Wedding invitation server running at http://localhost:${PORT}`);
+  console.log(`Admin dashboard:  http://localhost:${PORT}/admin.html`);
+  console.log(`Admin password:   ${ADMIN_KEY}${process.env.ADMIN_KEY ? ' (from ADMIN_KEY env)' : ' (default — set ADMIN_KEY to change)'}`);
 });

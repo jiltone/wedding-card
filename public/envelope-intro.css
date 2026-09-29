@@ -1,0 +1,206 @@
+/* ==========================================================================
+   envelope-intro.css
+   The very first thing a guest sees: a paper envelope that unseals and
+   opens on tap, with the invitation card sliding out before the rest of
+   the site fades in underneath. Colors reused from the page's own
+   tokens only:
+     maroon #5c0f1f / #3d0a15 / #7a1c2e
+     gold   #c9a24b / #e6d4a3 / #a37f2f
+     terracotta #c98a4b / #e8c9a0
+     ivory  #fdf8ef
+   ========================================================================== */
+
+#envelope-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background:
+    radial-gradient(circle at 50% 38%, #fffaf0 0%, #fdf3dc 45%, #e6d4a3 100%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+#envelope-intro:focus-visible {
+  outline: 2px solid #5c0f1f;
+  outline-offset: -6px;
+}
+#envelope-intro.envelope-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.envelope-scene {
+  position: relative;
+  width: min(82vw, 340px);
+  aspect-ratio: 3 / 2;
+  perspective: 1600px;
+}
+
+/* ---------- envelope body (outer paper) ---------- */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(160deg, #fdf8ef, #f3e6cf 60%, #e8d5a3);
+  box-shadow:
+    0 22px 45px rgba(61, 10, 21, 0.28),
+    inset 0 0 0 1px rgba(201, 162, 75, 0.5);
+  z-index: 1;
+}
+
+/* ---------- invitation card, tucked inside ---------- */
+.envelope-card {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  bottom: 6%;
+  height: 76%;
+  z-index: 2;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #fffdf7, #fdf8ef);
+  box-shadow: 0 6px 18px rgba(61, 10, 21, 0.18), inset 0 0 0 1px rgba(201, 162, 75, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transform: translateY(16%);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 1s ease;
+  will-change: transform;
+}
+.envelope-card-monogram {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 5vw, 1.6rem);
+  color: #5c0f1f;
+  letter-spacing: 0.08em;
+}
+.envelope-card-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #a37f2f;
+}
+.envelope-scene.opening .envelope-card {
+  transition-delay: 0.45s;
+  transform: translateY(-68%) scale(1.04);
+  box-shadow: 0 26px 40px rgba(61, 10, 21, 0.3), inset 0 0 0 1px rgba(201, 162, 75, 0.4);
+}
+
+/* ---------- side shading triangles (purely decorative fold lines) ---------- */
+.envelope-pocket-left,
+.envelope-pocket-right {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(122, 28, 46, 0.08), rgba(122, 28, 46, 0));
+}
+.envelope-pocket-left {
+  clip-path: polygon(0 0, 0 100%, 50% 52%);
+}
+.envelope-pocket-right {
+  clip-path: polygon(100% 0, 100% 100%, 50% 52%);
+}
+
+/* ---------- front pocket (bottom flap seam, always closed) ---------- */
+.envelope-pocket-front {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  clip-path: polygon(0 100%, 50% 40%, 100% 100%);
+  background: linear-gradient(200deg, #f6e9c9, #e6d4a3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- the flap that opens ---------- */
+.envelope-flap {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  clip-path: polygon(0 0, 100% 0, 50% 62%);
+  background: linear-gradient(200deg, #f3e6cf, #d9b978);
+  transform-origin: 50% 0%;
+  transform: rotateX(0deg);
+  backface-visibility: hidden;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.envelope-scene.opening .envelope-flap {
+  transform: rotateX(-180deg);
+}
+
+/* wax seal, sitting at the flap's tip, doubles as the tap affordance */
+.envelope-seal {
+  margin-top: 34%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: #e6d4a3;
+  background: radial-gradient(circle at 32% 28%, #8a2236, #5c0f1f 75%);
+  box-shadow: 0 6px 14px rgba(61, 10, 21, 0.4), inset 0 0 0 2px rgba(230, 212, 163, 0.35);
+  animation: seal-invite 2.4s ease-in-out infinite;
+}
+@keyframes seal-invite {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.envelope-scene.opening .envelope-seal {
+  animation: none;
+}
+
+/* ---------- tap hint ---------- */
+.envelope-hint {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #7a1c2e;
+  opacity: 0.85;
+  animation: envelope-hint-pulse 1.8s ease-in-out infinite;
+}
+@keyframes envelope-hint-pulse {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50% { transform: translateY(-4px); opacity: 0.5; }
+}
+#envelope-intro.envelope-hidden .envelope-hint,
+.envelope-scene.opening ~ .envelope-hint {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   Reduced motion — a plain, quick fade instead of the 3D flap + rise
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .envelope-flap,
+  .envelope-card {
+    transition: opacity 0.25s ease !important;
+  }
+  .envelope-scene.opening .envelope-flap {
+    transform: none !important;
+    opacity: 0;
+  }
+  .envelope-scene.opening .envelope-card {
+    transform: none !important;
+    opacity: 0;
+  }
+  .envelope-seal { animation: none !important; }
+  .envelope-hint { animation: none !important; }
+}
