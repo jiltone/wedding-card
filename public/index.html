@@ -177,13 +177,6 @@
   /* ==========================================================
      Panel deck
      ========================================================== */
-  #guest-greeting {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 40;
-  }
-
   .panel-deck {
     position: relative;
     width: 100%;
@@ -456,11 +449,6 @@
   <p class="envelope-hint">Tap to Open</p>
 </div>
 
-<!-- ===================== Guest Greeting Bar ===================== -->
-<div id="guest-greeting" class="w-full bg-maroon text-ivory text-center text-sm sm:text-base py-3 px-4 font-body tracking-wide">
-  Dear Family &amp; Friends, you are warmly invited to our wedding.
-</div>
-
 <!-- ===================== Falling Petals (ambient background) ===================== -->
 <div id="petals-container"></div>
 
@@ -713,6 +701,13 @@
           </div>
         </div>
 
+        <button
+          type="button"
+          id="add-to-calendar"
+          class="reveal btn-gold inline-flex items-center gap-2 text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-8 py-3 mt-8">
+          <span aria-hidden="true">📅</span> Add to Calendar
+        </button>
+
         <div class="lotus-divider mt-10 mb-8 w-full max-w-xs">✦</div>
 
         <!-- Ceremonies -->
@@ -782,9 +777,15 @@
           <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">RSVP</h2>
           <div class="lotus-divider mt-5">✦</div>
           <p class="font-body text-sm text-maroon-dark/70 mt-4">Your presence is our greatest blessing — please let us know by 11th November 2026.</p>
-          <p class="font-body text-sm text-maroon-dark mt-2">Or call/WhatsApp </p>
-            <span class="font-semibold">Sajini&mdash; 077 074 4330</span></p>
-            <span class="font-semibold">Samuditha&mdash; 076 125 4702</span>
+          <p class="font-body text-sm text-maroon-dark mt-2 mb-4">Or call/WhatsApp</p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a href="tel:+94770744330" class="btn-gold inline-flex items-center gap-2 text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-6 py-3">
+              <span aria-hidden="true">📞</span> Sajini &mdash; 077 074 4330
+            </a>
+            <a href="tel:+94761254702" class="btn-gold inline-flex items-center gap-2 text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-6 py-3">
+              <span aria-hidden="true">📞</span> Samuditha &mdash; 076 125 4702
+            </a>
+          </div>
         </div>
 
         <form id="rsvp-form" class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 space-y-5 w-full">
@@ -989,6 +990,13 @@
 
       const prevPanel = panels[current];
       const nextPanel = panels[index];
+
+      // navigating back to the intro panel: undo the one-time "doors are
+      // opening" fade so its title/names/date are visible again
+      if (index === 0) {
+        const introEl = panels[0].querySelector('.intro-content');
+        if (introEl) introEl.classList.remove('doors-opening');
+      }
 
       deck.dataset.direction = index > current ? 'forward' : 'back';
 
@@ -1206,19 +1214,6 @@
     });
   })();
 
-  // ---------- 4. Dynamic Guest Greeting ----------
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    const guest = params.get('guest');
-    const el = document.getElementById('guest-greeting');
-
-    if (guest && guest.trim().length > 0) {
-      el.textContent = `Dear ${guest.trim()}, you are warmly invited to our wedding.`;
-    } else {
-      el.textContent = 'Dear Family & Friends, you are warmly invited to our wedding.';
-    }
-  })();
-
   // ---------- 5. Countdown Timer ----------
   (function () {
     // Poruwa ceremony date/time from the invitation
@@ -1253,6 +1248,42 @@
 
     update();
     setInterval(update, 1000);
+  })();
+
+  // ---------- Add to device calendar (downloads a .ics file) ----------
+  (function () {
+    const btn = document.getElementById('add-to-calendar');
+    if (!btn) return;
+
+    function icsEscape(str) {
+      return str.replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n');
+    }
+
+    btn.addEventListener('click', () => {
+      const lines = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Samuditha & Sajini Wedding//EN',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        'UID:samuditha-sajini-wedding-2026@wedding-card',
+        'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+        'DTSTART:20261111T030000Z',
+        'DTEND:20261111T103000Z',
+        'SUMMARY:' + icsEscape("Samuditha & Sajini's Wedding"),
+        'DESCRIPTION:' + icsEscape('Poruwa Ceremony at 8:50 AM, Reception 8:30 AM - 4:00 PM.'),
+        'LOCATION:' + icsEscape('Deandra, Bolgoda, Piliyandala'),
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ];
+      const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Samuditha-Sajini-Wedding.ics';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
   })();
 
   // ---------- 6. Falling petals ----------
