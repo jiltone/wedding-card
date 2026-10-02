@@ -1288,7 +1288,31 @@
       return str.replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n');
     }
 
+    const TITLE = "Samuditha & Sajini's Wedding";
+    const DETAILS = 'Poruwa Ceremony at 8:50 AM, Reception 8:30 AM - 4:00 PM.';
+    const LOCATION = 'Deandra, Bolgoda, Piliyandala';
+    const START = '20261111T030000Z';
+    const END = '20261111T103000Z';
+
+    // Android has no default .ics file handler on most devices, so a
+    // downloaded .ics file just silently lands in Downloads with no visible
+    // result. Google Calendar's web link is universally supported there and
+    // opens the "add event" screen directly, so route Android to it instead.
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
     btn.addEventListener('click', () => {
+      if (isAndroid) {
+        const params = new URLSearchParams({
+          action: 'TEMPLATE',
+          text: TITLE,
+          dates: `${START}/${END}`,
+          details: DETAILS,
+          location: LOCATION
+        });
+        window.open(`https://calendar.google.com/calendar/render?${params}`, '_blank');
+        return;
+      }
+
       const lines = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
@@ -1297,11 +1321,11 @@
         'BEGIN:VEVENT',
         'UID:samuditha-sajini-wedding-2026@wedding-card',
         'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
-        'DTSTART:20261111T030000Z',
-        'DTEND:20261111T103000Z',
-        'SUMMARY:' + icsEscape("Samuditha & Sajini's Wedding"),
-        'DESCRIPTION:' + icsEscape('Poruwa Ceremony at 8:50 AM, Reception 8:30 AM - 4:00 PM.'),
-        'LOCATION:' + icsEscape('Deandra, Bolgoda, Piliyandala'),
+        'DTSTART:' + START,
+        'DTEND:' + END,
+        'SUMMARY:' + icsEscape(TITLE),
+        'DESCRIPTION:' + icsEscape(DETAILS),
+        'LOCATION:' + icsEscape(LOCATION),
         'END:VEVENT',
         'END:VCALENDAR'
       ];
