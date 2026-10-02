@@ -425,29 +425,11 @@
 <link rel="stylesheet" href="animations.css">
 <!-- Intro build-in + door-opening animation CSS -->
 <link rel="stylesheet" href="intro-animations.css">
-<!-- Envelope-opening intro animation CSS -->
-<link rel="stylesheet" href="envelope-intro.css">
+<!-- Dark cover opening page CSS -->
+<link rel="stylesheet" href="cover-intro.css">
 </head>
 
 <body class="motif-bg overflow-x-hidden">
-
-<!-- ===================== Envelope opening intro ===================== -->
-<div id="envelope-intro" role="button" tabindex="0" aria-label="Tap to open your invitation">
-  <div class="envelope-scene">
-    <div class="envelope-back"></div>
-    <div class="envelope-card">
-      <p class="envelope-card-monogram">S &amp; S</p>
-      <p class="envelope-card-label">Wedding Invitation</p>
-    </div>
-    <div class="envelope-pocket-left"></div>
-    <div class="envelope-pocket-right"></div>
-    <div class="envelope-pocket-front"></div>
-    <div class="envelope-flap">
-      <div class="envelope-seal">S&amp;S</div>
-    </div>
-  </div>
-  <p class="envelope-hint">Tap to Open</p>
-</div>
 
 <!-- ===================== Falling Petals (ambient background) ===================== -->
 <div id="petals-container"></div>
@@ -472,26 +454,62 @@
 <!-- ===================== Panel Deck ===================== -->
 <div class="panel-deck" id="panel-deck" data-transition="crossfade">
 
-  <!-- ---------- Panel 0: Intro / Title ---------- -->
-  <section class="panel" data-panel="0" data-initial="I">
+  <!-- ---------- Panel 0: Cover / Intro ---------- -->
+  <section class="panel cover-panel" data-panel="0" data-initial="I">
     <div class="panel-monogram" aria-hidden="true">I</div>
 
+    <!-- ornate double-line border frame -->
+    <span class="cover-frame cover-frame-outer" aria-hidden="true"></span>
+    <span class="cover-frame cover-frame-inner" aria-hidden="true"></span>
+
+    <!-- corner flourishes (one shape, reused + mirrored per corner) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="corner-flourish" viewBox="0 0 60 60">
+        <path d="M4 4 C 4 22, 22 4, 40 4" fill="none" stroke="currentColor" stroke-width="1.1"/>
+        <path d="M4 4 C 22 4, 4 22, 4 40" fill="none" stroke="currentColor" stroke-width="1.1"/>
+        <path d="M15 4.5 C 19.5 10.5 19 15 12.5 17" fill="none" stroke="currentColor" stroke-width="0.9"/>
+        <path d="M4.5 15 C 10.5 19.5 15 19 17 12.5" fill="none" stroke="currentColor" stroke-width="0.9"/>
+        <circle cx="4" cy="4" r="2.2" fill="currentColor"/>
+      </symbol>
+    </svg>
+    <svg class="cover-flourish ccf-tl" aria-hidden="true"><use href="#corner-flourish"/></svg>
+    <svg class="cover-flourish ccf-tr" aria-hidden="true"><use href="#corner-flourish"/></svg>
+    <svg class="cover-flourish ccf-bl" aria-hidden="true"><use href="#corner-flourish"/></svg>
+    <svg class="cover-flourish ccf-br" aria-hidden="true"><use href="#corner-flourish"/></svg>
+
+    <!-- sun / moon motifs -->
+    <svg class="cover-sun" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 7" opacity="0.6"/>
+      <circle cx="50" cy="50" r="19" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="6" fill="currentColor"/>
+      <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="50" y1="2" x2="50" y2="15"/>
+        <line x1="50" y1="85" x2="50" y2="98"/>
+        <line x1="2" y1="50" x2="15" y2="50"/>
+        <line x1="85" y1="50" x2="98" y2="50"/>
+        <line x1="14.6" y1="14.6" x2="23.5" y2="23.5"/>
+        <line x1="76.5" y1="76.5" x2="85.4" y2="85.4"/>
+        <line x1="85.4" y1="14.6" x2="76.5" y2="23.5"/>
+        <line x1="23.5" y1="76.5" x2="14.6" y2="85.4"/>
+      </g>
+    </svg>
+    <svg class="cover-moon" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M62 18 A28 28 0 1 0 62 82 A22 22 0 1 1 62 18 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M82 68 L85.2 75.2 L92.4 78.4 L85.2 81.6 L82 88.8 L78.8 81.6 L71.6 78.4 L78.8 75.2 Z" fill="currentColor" opacity="0.9"/>
+      <circle cx="22" cy="22" r="2" fill="currentColor" opacity="0.7"/>
+    </svg>
+
     <div class="intro-content relative flex flex-col items-center text-center px-6 max-w-lg mx-auto z-10">
-      <p class="intro-title-line font-heading italic text-terracotta-dark text-lg sm:text-3xl tracking-widest mb-3">
-        ආයුබෝවන් &mdash; Ayubowan
-      </p>
 
-      <p class="intro-title-line intro-title-line-2 font-body text-terracotta-dark/80 text-xs sm:text-sm uppercase tracking-[0.35em] mb-8">
-        Together with their families
-      </p>
+      <p class="intro-title-line font-body text-gold text-[11px] sm:text-sm uppercase tracking-[0.5em] mt-20 sm:mt-24 mb-5">The Wedding Of</p>
 
-      <h1 class="intro-names font-script text-5xl sm:text-6xl text-maroon mb-3 mt-4">Samuditha &amp; Sajini</h1>
-      <p class="intro-date font-display text-base sm:text-lg text-terracotta-dark tracking-wide">Wednesday, the 11th of November, 2026</p>
-    </div>
+      <h1 class="intro-names font-heading text-5xl sm:text-6xl text-ivory leading-tight">Samuditha</h1>
+      <span class="intro-names font-script text-3xl sm:text-4xl text-gold my-1">&amp;</span>
+      <h1 class="intro-names font-heading text-5xl sm:text-6xl text-ivory leading-tight mb-6">Sajini</h1>
 
-    <div class="intro-hint absolute bottom-10 flex flex-col items-center gap-2 text-terracotta-dark z-10">
-      <span class="text-[10px] uppercase tracking-[0.3em]">Tap to Open</span>
-      <span class="text-lg">↓</span>
+      <p class="intro-date font-body text-xs sm:text-sm uppercase tracking-[0.3em] text-ivory/80 mb-10">November 11, 2026</p>
+
+      <button type="button" class="intro-hint cover-open-btn">Open Invitation</button>
     </div>
   </section>
 
@@ -619,15 +637,17 @@
     <div class="panel-inner relative z-10 px-6 py-16 sm:py-20">
       <div class="max-w-3xl mx-auto flex flex-col items-center text-center">
 
-        <!-- S | S monogram emblem -->
-        <div class="reveal relative flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 rounded-full mb-5"
-             style="border: 1px solid rgba(201,162,75,0.6); box-shadow: 0 0 0 5px rgba(201,162,75,0.12), inset 0 0 0 1px rgba(201,162,75,0.3); background: rgba(255,255,255,0.5);">
-          <span class="font-script text-3xl sm:text-4xl text-maroon flex items-center gap-2">
-            S<span class="font-heading not-italic text-lg sm:text-xl text-gold-dark mx-0.5">|</span>S
-          </span>
+        <!-- 11|11 — S|S cross monogram -->
+        <div class="reveal relative mx-auto mb-3" style="width: max-content;">
+          <div class="relative grid grid-cols-2 gap-x-5 sm:gap-x-8 gap-y-1">
+            <span class="font-heading font-semibold text-4xl sm:text-6xl text-maroon-dark text-right tracking-wide" style="font-variant-numeric: lining-nums;">11</span>
+            <span class="font-heading font-semibold text-4xl sm:text-6xl text-maroon-dark text-left tracking-wide" style="font-variant-numeric: lining-nums;">11</span>
+            <span class="font-heading font-semibold text-4xl sm:text-6xl text-maroon-dark text-right tracking-wide">S</span>
+            <span class="font-heading font-semibold text-4xl sm:text-6xl text-maroon-dark text-left tracking-wide">S</span>
+          </div>
+          <div class="absolute top-0 bottom-0 left-1/2 w-px bg-gold-dark/50 -translate-x-1/2"></div>
         </div>
 
-        <p class="reveal font-display tracking-[0.5em] text-2xl sm:text-3xl text-terracotta-dark mb-1">11 &middot; 11</p>
         <p class="reveal font-body text-[10px] sm:text-xs uppercase tracking-[0.35em] text-maroon-dark/60 mb-10">Our Wedding Day</p>
 
         <!-- Bride & Groom -->
@@ -636,14 +656,9 @@
           <!-- Bride -->
           <div class="event-row reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden" style="--row-delay: 0s;">
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
-            <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">The Bride</p>
+            <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-5">The Bride</p>
 
-            <!-- Placeholder photo — replace with the bride's actual photo/illustration -->
-            <div class="slow-zoom-img w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-full overflow-hidden border-2 border-gold/50 card-shadow mb-5 flex items-center justify-center bg-white/60">
-              <span class="font-script text-5xl text-maroon">S</span>
-            </div>
-
-            <h2 class="font-heading text-3xl sm:text-4xl text-maroon-dark mb-2">Sajini</h2>
+            <h2 class="font-script text-6xl sm:text-7xl text-maroon leading-none mb-5">Sajini</h2>
             <div class="gold-line w-16 mx-auto mb-4"></div>
 
             <!-- Placeholder bio line — replace with the bride's own words -->
@@ -655,14 +670,9 @@
           <!-- Groom -->
           <div class="event-row reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden" style="--row-delay: 0.18s;">
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
-            <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">The Groom</p>
+            <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-5">The Groom</p>
 
-            <!-- Placeholder photo — replace with the groom's actual photo/illustration -->
-            <div class="slow-zoom-img w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-full overflow-hidden border-2 border-gold/50 card-shadow mb-5 flex items-center justify-center bg-white/60">
-              <span class="font-script text-5xl text-maroon">S</span>
-            </div>
-
-            <h2 class="font-heading text-3xl sm:text-4xl text-maroon-dark mb-2">Samuditha</h2>
+            <h2 class="font-script text-6xl sm:text-7xl text-maroon leading-none mb-5">Samuditha</h2>
             <div class="gold-line w-16 mx-auto mb-4"></div>
 
             <!-- Placeholder bio line — replace with the groom's own words -->
@@ -1174,64 +1184,9 @@
     });
   })();
 
-  // ---------- Envelope opening intro ----------
+  // ---------- Start the cover page's build-in immediately (no envelope step) ----------
   (function () {
-    const envelope = document.getElementById('envelope-intro');
-    if (!envelope) {
-      if (window.__beginCardIntro) window.__beginCardIntro();
-      return;
-    }
-
-    const scene = envelope.querySelector('.envelope-scene');
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let opened = false;
-
-    function openEnvelope() {
-      if (opened) return;
-      opened = true;
-
-      if (prefersReducedMotion) {
-        scene.classList.add('opening');
-        envelope.classList.add('envelope-hidden');
-        if (window.__beginCardIntro) window.__beginCardIntro();
-        return;
-      }
-
-      scene.classList.add('opening');
-
-      // flap opens (0.9s, starting immediately), card rises 0.45s in and
-      // takes 1s — by ~1.45s the card has fully emerged
-      setTimeout(() => {
-        envelope.classList.add('envelope-hidden');
-        if (window.__beginCardIntro) window.__beginCardIntro();
-      }, 1450);
-
-      // fully detach once the fade-out transition (0.9s) has finished
-      setTimeout(() => {
-        envelope.style.display = 'none';
-      }, 1450 + 900);
-    }
-
-    envelope.addEventListener('click', openEnvelope);
-    envelope.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openEnvelope();
-      }
-    });
-  })();
-
-  // ---------- 3. Unlock & auto-start background music on first tap ----------
-  (function () {
-    const musicToggle = document.getElementById('music-toggle');
-    function unlock() {
-      if (musicToggle && !musicToggle.classList.contains('playing')) {
-        musicToggle.click();
-      }
-    }
-    ['pointerdown', 'touchstart', 'keydown'].forEach((evt) => {
-      document.addEventListener(evt, unlock, { once: true });
-    });
+    if (window.__beginCardIntro) window.__beginCardIntro();
   })();
 
   // ---------- 5. Countdown Timer ----------
