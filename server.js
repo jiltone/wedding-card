@@ -10,8 +10,10 @@ const PORT = process.env.PORT || 3000;
 const ADMIN_KEY = (process.env.ADMIN_KEY || '1234').trim();
 
 // Comma-separated list of allowed origins (e.g. "https://your-site.netlify.app").
-// Leave unset to allow same-origin requests only implicitly via the browser default.
+// Any *.netlify.app origin is always allowed so the deployed card works out of
+// the box even if CORS_ORIGINS isn't set on Render.
 const CORS_ORIGINS = (process.env.CORS_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean);
+const NETLIFY_ORIGIN_RE = /^https:\/\/[a-z0-9-]+\.netlify\.app$/;
 
 const DATA_DIR = path.join(__dirname, 'data');
 const RSVP_FILE = path.join(DATA_DIR, 'rsvps.json');
@@ -27,9 +29,14 @@ function writeRsvps(list) {
   fs.writeFileSync(RSVP_FILE, JSON.stringify(list, null, 2));
 }
 
-if (CORS_ORIGINS.length) {
-  app.use(cors({ origin: CORS_ORIGINS }));
-}
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || NETLIFY_ORIGIN_RE.test(origin) || CORS_ORIGINS.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  }
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 

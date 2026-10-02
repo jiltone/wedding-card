@@ -900,8 +900,9 @@
       <p class="reveal font-heading text-2xl text-gold mb-2">Samuditha &amp; Sajini</p>
       <p class="reveal font-body text-xs text-gold-light/80 tracking-widest max-w-md">With love, we welcome you to celebrate this joyous occasion with us.</p>
       <div class="reveal gold-line w-32 my-6"></div>
-      <a href="admin.html" class="reveal font-body text-[10px] uppercase tracking-widest text-gold-light/30 hover:text-gold-light/70 transition-colors mt-2">Admin</a>
     </div>
+
+    <a href="admin.html" class="reveal absolute bottom-6 inset-x-0 text-center font-body text-[10px] uppercase tracking-widest text-gold-light/30 hover:text-gold-light/70 transition-colors z-10">Admin</a>
   </section>
 
 </div>
@@ -1360,18 +1361,46 @@
       }, stepTime);
     }
 
-    toggle.addEventListener('click', () => {
-      if (!playing) {
-        audio.play().catch(() => {});
-        fadeTo(TARGET_VOLUME, 1400);
-        toggle.classList.add('playing');
-        toggle.title = 'Pause background music';
-      } else {
-        fadeTo(0, 900);
-        toggle.classList.remove('playing');
-        toggle.title = 'Play background music';
-      }
-      playing = !playing;
+    function startPlaying() {
+      if (playing) return;
+      audio.play().catch(() => {});
+      fadeTo(TARGET_VOLUME, 1400);
+      toggle.classList.add('playing');
+      toggle.title = 'Pause background music';
+      playing = true;
+    }
+
+    function stopPlaying() {
+      if (!playing) return;
+      fadeTo(0, 900);
+      toggle.classList.remove('playing');
+      toggle.title = 'Play background music';
+      playing = false;
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      playing ? stopPlaying() : startPlaying();
+    });
+
+    // Most browsers block audio with sound until the user interacts with the
+    // page, so try to autoplay immediately and, if that's blocked, fall back
+    // to starting on the very first click/tap/keypress anywhere on the page.
+    audio.play().then(() => {
+      fadeTo(TARGET_VOLUME, 1400);
+      toggle.classList.add('playing');
+      toggle.title = 'Pause background music';
+      playing = true;
+    }).catch(() => {
+      const startOnFirstInteraction = () => {
+        startPlaying();
+        document.removeEventListener('click', startOnFirstInteraction);
+        document.removeEventListener('touchstart', startOnFirstInteraction);
+        document.removeEventListener('keydown', startOnFirstInteraction);
+      };
+      document.addEventListener('click', startOnFirstInteraction, { once: true });
+      document.addEventListener('touchstart', startOnFirstInteraction, { once: true });
+      document.addEventListener('keydown', startOnFirstInteraction, { once: true });
     });
   })();
 
