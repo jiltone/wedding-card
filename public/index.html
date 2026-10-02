@@ -387,20 +387,30 @@
   }
 
   /* ---------- RSVP form ---------- */
-  .rsvp-input, .rsvp-textarea {
+  .rsvp-input, .rsvp-textarea, .rsvp-select {
     width: 100%;
-    border: 1px solid rgba(201,162,75,0.5);
-    border-radius: 10px;
-    padding: 10px 14px;
+    border: none;
+    border-bottom: 1px solid rgba(201,162,75,0.5);
+    border-radius: 0;
+    padding: 8px 2px;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
-    background: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+    background: transparent;
     color: #3d0a15;
   }
-  .rsvp-input:focus, .rsvp-textarea:focus {
+  .rsvp-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23a37f2f' stroke-width='1.5'%3E%3Cpath d='M5 7.5 L10 12.5 L15 7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 2px center;
+    background-size: 16px;
+    cursor: pointer;
+  }
+  .rsvp-input:focus, .rsvp-textarea:focus, .rsvp-select:focus {
     outline: none;
     border-color: #c9a24b;
-    box-shadow: 0 0 0 3px rgba(201,162,75,0.2);
+    box-shadow: none;
   }
 
   /* ---------- Reduced motion ---------- */
@@ -738,31 +748,48 @@
           <span aria-hidden="true">📅</span> Add to Calendar
         </button>
 
-        <div class="lotus-divider mt-10 mb-8 w-full max-w-xs">✦</div>
+        <!-- Wedding Events header -->
+        <div class="reveal flex flex-col items-center mt-6 mb-8">
+          <p class="text-gold-dark uppercase tracking-[0.35em] text-xs mb-2">Celebrate With Us</p>
+          <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">Wedding Events</h2>
+          <div class="flex items-center gap-3 mt-4 w-48">
+            <span class="gold-line flex-1"></span>
+            <span class="text-gold-dark text-base" aria-hidden="true">&#10084;</span>
+            <span class="gold-line flex-1"></span>
+          </div>
+        </div>
 
         <!-- Ceremonies -->
-        <div class="grid sm:grid-cols-2 gap-8 w-full">
+        <div class="flex flex-col gap-6 w-full">
 
           <!-- Poruwa Ceremony -->
-          <div class="event-row reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden" style="--row-delay: 0s;">
-            <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
-            <p class="event-icon text-gold-dark text-4xl mb-3">☘</p>
-            <h3 class="font-heading text-3xl text-maroon mb-2">Poruwa Ceremony</h3>
-            <div class="gold-line w-16 mx-auto my-4"></div>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 8:50 AM</p>
-
+          <div class="event-row reveal bg-white/70 rounded-3xl card-shadow border border-gold/30 p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-6 text-left" style="--row-delay: 0s;">
+            <div class="event-icon w-full sm:w-36 h-36 shrink-0 rounded-2xl overflow-hidden">
+              <img src="assets/poruwa-ceremony.jpg" alt="Poruwa ceremony" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-heading text-2xl sm:text-3xl text-maroon mb-3">Poruwa Ceremony</h3>
+              <div class="space-y-2 text-sm text-maroon-dark/80">
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">📅</span> Wednesday, 11 November 2026</p>
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">🕒</span> 8:50 AM</p>
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">📍</span> Deandra, Bolgoda, Piliyandala</p>
+              </div>
+            </div>
           </div>
 
           <!-- Reception -->
-          <div class="event-row reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 text-center relative overflow-hidden" style="--row-delay: 0.18s;">
-            <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-gold/10"></div>
-            <p class="event-icon text-gold-dark text-4xl mb-3">✦</p>
-            <h3 class="font-heading text-3xl text-maroon mb-2">Reception</h3>
-            <div class="gold-line w-16 mx-auto my-4"></div>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Date:</span> Wednesday, 11 November 2026</p>
-            <p class="font-body text-sm text-maroon-dark/80 mb-1"><span class="font-semibold">Time:</span> 8:30 AM &ndash; 4:00 PM</p>
-
+          <div class="event-row reveal bg-white/70 rounded-3xl card-shadow border border-gold/30 p-5 sm:p-6 flex flex-col sm:flex-row-reverse items-center gap-6 text-left" style="--row-delay: 0.18s;">
+            <div class="event-icon w-full sm:w-36 h-36 shrink-0 rounded-2xl overflow-hidden">
+              <img src="assets/reception.jpg" alt="Wedding reception" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <h3 class="font-heading text-2xl sm:text-3xl text-maroon mb-3">Reception</h3>
+              <div class="space-y-2 text-sm text-maroon-dark/80">
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">📅</span> Wednesday, 11 November 2026</p>
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">🕒</span> 8:30 AM &ndash; 4:00 PM</p>
+                <p class="flex items-center gap-2"><span class="text-gold-dark" aria-hidden="true">📍</span> Deandra, Bolgoda, Piliyandala</p>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -779,13 +806,10 @@
           </div>
 
           <div class="w-full aspect-video">
-            <iframe
-              src="https://www.google.com/maps?q=Deandra+Bolgoda+Piliyandala&output=embed"
-              class="w-full h-full border-0"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="Venue Location Map">
-            </iframe>
+            <img
+              src="assets/venue-deandra.jpg"
+              alt="Deandra, Bolgoda, Piliyandala — venue entrance"
+              class="w-full h-full object-cover">
           </div>
 
           <div class="p-8 text-center">
@@ -806,44 +830,55 @@
           <p class="text-gold-dark uppercase tracking-[0.3em] text-xs mb-3">Kindly Respond</p>
           <h2 class="font-heading text-4xl sm:text-5xl text-maroon-dark">RSVP</h2>
           <div class="lotus-divider mt-5">✦</div>
-          <p class="font-body text-sm text-maroon-dark/70 mt-4">Your presence is our greatest blessing — please let us know by 11th November 2026.</p>
-          <p class="font-body text-sm text-maroon-dark mt-2 mb-4">Or call/WhatsApp</p>
           <div class="flex flex-wrap justify-center gap-3">
-            <a href="tel:+94770744330" class="btn-gold inline-flex items-center gap-2 text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-6 py-3">
-              <span aria-hidden="true">📞</span> Sajini &mdash; 077 074 4330
+            <a href="tel:+94770744330" class="inline-flex items-center gap-2 border border-gold-dark/50 text-maroon-dark text-sm rounded-full px-6 py-3 hover:bg-gold/10 transition-colors">
+              <span aria-hidden="true">📞</span> Call Sajini
             </a>
-            <a href="tel:+94761254702" class="btn-gold inline-flex items-center gap-2 text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-6 py-3">
-              <span aria-hidden="true">📞</span> Samuditha &mdash; 076 125 4702
+            <a href="tel:+94761254702" class="inline-flex items-center gap-2 border border-gold-dark/50 text-maroon-dark text-sm rounded-full px-6 py-3 hover:bg-gold/10 transition-colors">
+              <span aria-hidden="true">📞</span> Call Samuditha
             </a>
           </div>
         </div>
 
-        <form id="rsvp-form" class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 space-y-5 w-full">
+        <form id="rsvp-form" class="reveal bg-white/60 rounded-2xl card-shadow border border-gold/30 p-8 space-y-6 w-full text-left">
           <div>
-            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-name">Full Name</label>
-            <input class="rsvp-input" type="text" id="rsvp-name" name="name" placeholder="Your name" required>
-          </div>
-
-          <div>
-            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-2">Will you be attending?</label>
-            <div class="flex gap-4">
-              <label class="flex items-center gap-2 text-sm">
-                <input type="radio" name="attending" value="yes" checked> Yes, joyfully
-              </label>
-              <label class="flex items-center gap-2 text-sm">
-                <input type="radio" name="attending" value="no"> Regretfully, no
-              </label>
-            </div>
+            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-name">Guest Name(s)</label>
+            <input class="rsvp-input" type="text" id="rsvp-name" name="name" placeholder="Mr &amp; Mrs Perera" required>
           </div>
 
           <div>
             <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-guests">Number of Guests</label>
-            <input class="rsvp-input" type="number" id="rsvp-guests" name="guests" min="1" max="10" value="1">
+            <select class="rsvp-select" id="rsvp-guests" name="guests">
+              <option value="1">1 Person</option>
+              <option value="2">2 People</option>
+              <option value="3">3 People</option>
+              <option value="4">4 People</option>
+              <option value="5">5 People</option>
+              <option value="6">6 People</option>
+              <option value="7">7 People</option>
+              <option value="8">8 People</option>
+              <option value="9">9 People</option>
+              <option value="10">10 People</option>
+            </select>
           </div>
 
           <div>
-            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-message">Message for the Couple</label>
-            <textarea class="rsvp-textarea" id="rsvp-message" name="message" rows="3" placeholder="Share your wishes..."></textarea>
+            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-2">Will You Attend?</label>
+            <div class="flex gap-3">
+              <div class="flex-1">
+                <input type="radio" id="attend-yes" class="peer hidden" name="attending" value="yes" checked>
+                <label for="attend-yes" class="block text-center text-sm py-3 rounded-lg border border-maroon-dark cursor-pointer transition-colors peer-checked:bg-maroon-dark peer-checked:text-ivory">Joyfully Accept</label>
+              </div>
+              <div class="flex-1">
+                <input type="radio" id="attend-no" class="peer hidden" name="attending" value="no">
+                <label for="attend-no" class="block text-center text-sm py-3 rounded-lg border border-gold/40 cursor-pointer transition-colors peer-checked:bg-maroon-dark peer-checked:text-ivory peer-checked:border-maroon-dark">Regretfully Decline</label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase tracking-widest text-maroon-dark/70 mb-1" for="rsvp-message">Message for the Couple (Optional)</label>
+            <textarea class="rsvp-textarea" id="rsvp-message" name="message" rows="2" placeholder="Can't wait to celebrate with you!"></textarea>
           </div>
 
           <button type="submit" class="btn-gold w-full text-maroon-dark font-semibold text-sm uppercase tracking-widest rounded-full px-8 py-3">
