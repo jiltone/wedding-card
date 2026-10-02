@@ -1150,6 +1150,7 @@
 
     // tap/click/key anywhere during the hold skips straight to the opening
     function skipIntroHold(e) {
+      if (window.__startBgMusic) window.__startBgMusic();
       if (doorsOpened) return;
       openDoors();
     }
@@ -1398,9 +1399,14 @@
       playing ? stopPlaying() : startPlaying();
     });
 
-    // Most browsers block audio with sound until the user interacts with the
-    // page, so try to autoplay immediately and, if that's blocked, fall back
-    // to starting on the very first click/tap/keypress anywhere on the page.
+    // Exposed so the "Open Invitation" tap (the very first interaction on
+    // the card) can start the music directly — browsers block audio with
+    // sound until a real user gesture, and that tap is the most reliable
+    // one we have, more so than a generic first click/tap listener which
+    // some in-app browsers (e.g. WhatsApp's) don't forward reliably.
+    window.__startBgMusic = startPlaying;
+
+    // Try true autoplay too, in case the browser allows it.
     audio.play().then(() => {
       fadeTo(TARGET_VOLUME, 1400);
       toggle.classList.add('playing');
