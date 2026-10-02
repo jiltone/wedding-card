@@ -384,6 +384,11 @@
   #music-toggle:hover { transform: scale(1.1); }
   #music-toggle.playing { animation: spin 4s linear infinite; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  #music-toggle.needs-tap { animation: music-nudge 1.1s ease-in-out infinite; }
+  @keyframes music-nudge {
+    0%, 100% { box-shadow: 0 8px 24px rgba(61,10,21,0.25); }
+    50% { box-shadow: 0 8px 24px rgba(61,10,21,0.25), 0 0 0 10px rgba(201,162,75,0.35); }
+  }
 
   /* ---------- Water ripple click effect ---------- */
   .click-ripple {
@@ -1166,7 +1171,15 @@
 
     // tap/click/key anywhere during the hold skips straight to the opening
     function skipIntroHold(e) {
-      if (window.__startBgMusic) window.__startBgMusic();
+      // Some in-app browsers (e.g. WhatsApp's Android WebView) block this
+      // automatic attempt even though it's triggered by a real tap. When
+      // that happens, draw attention to the manual music button instead of
+      // failing silently (see window.__musicStartFailed below).
+      if (window.__startBgMusic) {
+        window.__startBgMusic().catch(() => {
+          if (window.__musicStartFailed) window.__musicStartFailed();
+        });
+      }
       if (doorsOpened) return;
       openDoors();
     }
@@ -1418,12 +1431,21 @@
     }
 
     function startPlaying() {
-      if (playing) return;
-      audio.play().catch(() => {});
+      if (playing) return Promise.resolve();
+      playing = true;
       fadeTo(TARGET_VOLUME, 1400);
       toggle.classList.add('playing');
       toggle.title = 'Pause background music';
-      playing = true;
+      return audio.play().catch((err) => {
+        // Some in-app browsers (e.g. WhatsApp's Android WebView) silently
+        // block play() even on a real tap. Revert the UI so the toggle
+        // reflects reality, and let the caller react (see the nudge below).
+        playing = false;
+        toggle.classList.remove('playing');
+        toggle.title = 'Play background music';
+        fadeTo(0, 0);
+        throw err;
+      });
     }
 
     function stopPlaying() {
@@ -1436,7 +1458,8 @@
 
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      playing ? stopPlaying() : startPlaying();
+      toggle.classList.remove('needs-tap');
+      playing ? stopPlaying() : startPlaying().catch(() => {});
     });
 
     // Exposed so the "Open Invitation" tap (the very first interaction on
@@ -1445,6 +1468,7 @@
     // one we have, more so than a generic first click/tap listener which
     // some in-app browsers (e.g. WhatsApp's) don't forward reliably.
     window.__startBgMusic = startPlaying;
+    window.__musicStartFailed = () => toggle.classList.add('needs-tap');
 
     // Try true autoplay too, in case the browser allows it.
     audio.play().then(() => {
