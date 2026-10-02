@@ -922,13 +922,29 @@
 
 </div>
 
-<script>
-  // API base URL: when this page is served from Netlify (static hosting only),
-  // point API calls at the Render backend instead of same-origin.
-  const API_BASE = window.location.hostname.endsWith('netlify.app')
-    ? 'https://samuditha-sajini-wedding.onrender.com'
-    : '';
+<!-- Firebase (RSVP storage — no custom backend needed) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4HbuV0MHMPGPLfiONFZohERM_yIwpl6Q",
+    authDomain: "sajini-wedding.firebaseapp.com",
+    projectId: "sajini-wedding",
+    storageBucket: "sajini-wedding.firebasestorage.app",
+    messagingSenderId: "1051300823674",
+    appId: "1:1051300823674:web:b7f606a6cd868ce8b9b1c3",
+    measurementId: "G-6TP4ZW65CB"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.__submitRsvp = (payload) =>
+    addDoc(collection(db, 'rsvps'), { ...payload, submittedAt: serverTimestamp() });
+</script>
+
+<script>
   // ---------- 1. Panel deck: structure, transitions, auto-advance, swipe/wheel/keys ----------
   // Switch the transition style here: 'crossfade' | 'slide' | 'curtain' | 'petalwipe'
   const TRANSITION = 'crossfade';
@@ -1457,13 +1473,7 @@
       submitBtn.textContent = 'Sending...';
 
       try {
-        const res = await fetch(`${API_BASE}/api/rsvp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) throw new Error('Request failed');
+        await window.__submitRsvp(payload);
 
         success.textContent = `Thank you, ${payload.name || 'friend'}! Your RSVP has been recorded.`;
         success.classList.remove('hidden');

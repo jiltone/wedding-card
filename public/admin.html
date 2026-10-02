@@ -34,179 +34,20 @@
   h1, h2, .font-heading { font-family: 'Cormorant Garamond', serif; }
 </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen flex items-center justify-center p-6">
 
-<div id="login-view" class="min-h-screen flex items-center justify-center p-6">
-  <div class="w-full max-w-sm bg-white/80 border border-gold/40 rounded-xl shadow-lg p-8">
-    <h1 class="font-heading text-3xl text-maroon text-center mb-1">RSVP Admin</h1>
-    <p class="text-center text-sm text-maroon-light/70 mb-6">Enter the admin key to view responses.</p>
-    <form id="login-form" class="space-y-4">
-      <input type="password" id="admin-key" placeholder="Admin key" autocomplete="current-password"
-        class="w-full border border-gold/50 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gold" required>
-      <button type="submit" class="w-full bg-maroon text-ivory rounded-lg py-2 font-medium hover:bg-maroon-dark transition">
-        View RSVPs
-      </button>
-      <p id="login-error" class="text-red-700 text-sm text-center hidden">Incorrect key. Please try again.</p>
-    </form>
-  </div>
+<div class="w-full max-w-md bg-white/80 border border-gold/40 rounded-xl shadow-lg p-8 text-center">
+  <h1 class="font-heading text-3xl text-maroon mb-3">RSVP Responses</h1>
+  <p class="text-sm text-maroon-light/80 mb-6">
+    RSVPs are stored in Firestore. View, search, and delete them directly in the Firebase Console.
+  </p>
+  <a href="https://console.firebase.google.com/project/sajini-wedding/firestore/data/~2Frsvps"
+     target="_blank" rel="noopener"
+     class="inline-block w-full bg-maroon text-ivory rounded-lg py-3 font-medium hover:bg-maroon-dark transition">
+    Open Firestore Data
+  </a>
+  <p class="text-xs text-maroon-light/60 mt-4">Sign in with the Google account used to create the Firebase project.</p>
 </div>
 
-<div id="dashboard-view" class="hidden max-w-5xl mx-auto p-6">
-  <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
-    <h1 class="font-heading text-3xl text-maroon">RSVP Responses</h1>
-    <div class="flex gap-3">
-      <button id="refresh-btn" class="border border-gold text-maroon-dark rounded-lg px-4 py-2 text-sm hover:bg-gold/10 transition">Refresh</button>
-      <button id="export-btn" class="border border-gold text-maroon-dark rounded-lg px-4 py-2 text-sm hover:bg-gold/10 transition">Export CSV</button>
-      <button id="logout-btn" class="text-sm text-maroon-light/70 hover:text-maroon underline">Log out</button>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-3 gap-4 mb-6">
-    <div class="bg-white/80 border border-gold/30 rounded-xl p-4 text-center">
-      <div class="text-2xl font-heading text-maroon" id="stat-total">0</div>
-      <div class="text-xs text-maroon-light/70 uppercase tracking-wide">Responses</div>
-    </div>
-    <div class="bg-white/80 border border-gold/30 rounded-xl p-4 text-center">
-      <div class="text-2xl font-heading text-maroon" id="stat-attending">0</div>
-      <div class="text-xs text-maroon-light/70 uppercase tracking-wide">Attending</div>
-    </div>
-    <div class="bg-white/80 border border-gold/30 rounded-xl p-4 text-center">
-      <div class="text-2xl font-heading text-maroon" id="stat-guests">0</div>
-      <div class="text-xs text-maroon-light/70 uppercase tracking-wide">Total Guests</div>
-    </div>
-  </div>
-
-  <div class="bg-white/80 border border-gold/30 rounded-xl overflow-hidden">
-    <table class="w-full text-sm">
-      <thead class="bg-maroon text-ivory">
-        <tr>
-          <th class="text-left px-4 py-3">Name</th>
-          <th class="text-left px-4 py-3">Attending</th>
-          <th class="text-left px-4 py-3">Guests</th>
-          <th class="text-left px-4 py-3">Message</th>
-          <th class="text-left px-4 py-3">Submitted</th>
-          <th class="px-4 py-3"></th>
-        </tr>
-      </thead>
-      <tbody id="rsvp-body"></tbody>
-    </table>
-    <p id="empty-msg" class="hidden text-center text-maroon-light/60 py-8">No RSVPs yet.</p>
-  </div>
-</div>
-
-<script>
-  const API_BASE = window.location.hostname.endsWith('netlify.app')
-    ? 'https://samuditha-sajini-wedding.onrender.com'
-    : '';
-
-  const loginView = document.getElementById('login-view');
-  const dashboardView = document.getElementById('dashboard-view');
-  const loginForm = document.getElementById('login-form');
-  const loginError = document.getElementById('login-error');
-  const rsvpBody = document.getElementById('rsvp-body');
-  const emptyMsg = document.getElementById('empty-msg');
-
-  let adminKey = sessionStorage.getItem('adminKey') || '';
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, (c) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-  }
-
-  async function loadRsvps() {
-    const res = await fetch(API_BASE + '/api/rsvp?key=' + encodeURIComponent(adminKey));
-    if (!res.ok) {
-      sessionStorage.removeItem('adminKey');
-      adminKey = '';
-      loginView.classList.remove('hidden');
-      dashboardView.classList.add('hidden');
-      loginError.classList.remove('hidden');
-      return;
-    }
-    const list = await res.json();
-    render(list);
-  }
-
-  function render(list) {
-    loginView.classList.add('hidden');
-    dashboardView.classList.remove('hidden');
-
-    const attending = list.filter(r => r.attending === 'yes');
-    const totalGuests = attending.reduce((sum, r) => sum + (r.guests || 0), 0);
-
-    document.getElementById('stat-total').textContent = list.length;
-    document.getElementById('stat-attending').textContent = attending.length;
-    document.getElementById('stat-guests').textContent = totalGuests;
-
-    rsvpBody.innerHTML = '';
-    emptyMsg.classList.toggle('hidden', list.length > 0);
-
-    list
-      .slice()
-      .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))
-      .forEach((r) => {
-        const tr = document.createElement('tr');
-        tr.className = 'border-t border-gold/20';
-        tr.innerHTML = `
-          <td class="px-4 py-3 font-medium">${escapeHtml(r.name)}</td>
-          <td class="px-4 py-3">
-            <span class="px-2 py-1 rounded-full text-xs ${r.attending === 'yes' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-              ${r.attending === 'yes' ? 'Yes' : 'No'}
-            </span>
-          </td>
-          <td class="px-4 py-3">${escapeHtml(r.guests)}</td>
-          <td class="px-4 py-3 max-w-xs truncate" title="${escapeHtml(r.message)}">${escapeHtml(r.message || '—')}</td>
-          <td class="px-4 py-3 text-xs text-maroon-light/70">${new Date(r.submittedAt).toLocaleString()}</td>
-          <td class="px-4 py-3 text-right">
-            <button data-id="${r.id}" class="delete-btn text-red-700 hover:underline text-xs">Delete</button>
-          </td>
-        `;
-        rsvpBody.appendChild(tr);
-      });
-
-    document.querySelectorAll('.delete-btn').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('Delete this RSVP?')) return;
-        await fetch(API_BASE + '/api/rsvp/' + btn.dataset.id + '?key=' + encodeURIComponent(adminKey), { method: 'DELETE' });
-        loadRsvps();
-      });
-    });
-
-    window._rsvpList = list;
-  }
-
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    adminKey = document.getElementById('admin-key').value;
-    sessionStorage.setItem('adminKey', adminKey);
-    loginError.classList.add('hidden');
-    loadRsvps();
-  });
-
-  document.getElementById('refresh-btn').addEventListener('click', loadRsvps);
-
-  document.getElementById('logout-btn').addEventListener('click', () => {
-    sessionStorage.removeItem('adminKey');
-    adminKey = '';
-    dashboardView.classList.add('hidden');
-    loginView.classList.remove('hidden');
-  });
-
-  document.getElementById('export-btn').addEventListener('click', () => {
-    const list = window._rsvpList || [];
-    const header = ['Name', 'Attending', 'Guests', 'Message', 'Submitted'];
-    const rows = list.map(r => [r.name, r.attending, r.guests, r.message, r.submittedAt]
-      .map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','));
-    const csv = [header.join(','), ...rows].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'rsvps.csv';
-    a.click();
-  });
-
-  if (adminKey) loadRsvps();
-</script>
 </body>
 </html>
