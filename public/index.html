@@ -924,14 +924,11 @@
     const curtain = document.getElementById('curtain-sweep');
     const petalLayer = document.getElementById('petalwipe-layer');
     const TRANSITION_MS = 900;
-    const AUTO_MS = 4500;
 
     deck.dataset.transition = TRANSITION;
 
     let current = 0;
     let transitioning = false;
-    let autoEnabled = true;
-    let autoTimer = null;
 
     // build nav dots
     panels.forEach((p, i) => {
@@ -958,17 +955,10 @@
       });
     });
 
-    function userInteracted() {
-      autoEnabled = false;
-      clearTimeout(autoTimer);
-    }
-
-    function resetAutoAdvance() {
-      clearTimeout(autoTimer);
-      if (!autoEnabled) return;
-      if (current >= panels.length - 1) return; // don't loop back to the start
-      autoTimer = setTimeout(() => goTo(current + 1), AUTO_MS);
-    }
+    // panels now advance only by manual swipe/scroll/click/keyboard —
+    // no automatic timer-driven advancing
+    function userInteracted() {}
+    function resetAutoAdvance() {}
 
     function setWillChange(panel, on) {
       panel.style.willChange = on ? 'transform, opacity, filter' : 'auto';
